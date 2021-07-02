@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="robots" content="index,follow">
+    <meta name="author" content="Kai Lee">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Music Top 100</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=New+Rocker&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/index.css">
+    <script src="https://www.gstatic.com/charts/loader.js"></script>
+    <script>
+        google.charts.load('current', { packages: ['corechart'] });
+        google.charts.setOnLoadCallback(drawMultSeries);
+
+        function drawMultSeries() {
+            let data = google.visualization.arrayToDataTable([
+                ['Genres', '1983',],
+                ['R&B', 817500],
+                ['Rock', 3792000],
+                ['Blues', 2695000],
+                ['Hip hop', 2099000],
+                ['Country', 1526000],
+                ['Houston, TX', 2099000],
+                ['Houston, TX', 2099000],
+                ['Houston, TX', 2099000],
+                ['Houston, TX', 2099000],
+                ['Houston, TX', 2099000],
+                ['Houston, TX', 2099000],
+                ['Houston, TX', 2099000],
+                ['Houston, TX', 2099000],
+                ['Houston, TX', 2099000],
+                ['Houston, TX', 2099000],
+            ]);
+
+            let options = {
+                title: 'Genres of the year',
+                chartArea: { width: '50%', height: '70%' },
+                hAxis: {
+                    title: 'Total Population',
+                    minValue: 0
+                },
+                vAxis: {
+                    title: 'Genres'
+                }
+            };
+
+            let chart = new google.visualization.BarChart(document.getElementById('chart_div'));
+            chart.draw(data, options);
+        }
+    </script>
+</head>
+
+<body>
+    <header>
+        <h1>Music Top 100</h1>
+        <nav>
+            <a href="#">Genres flow</a>
+            <a href="#">Top guitarists</a>
+        </nav>
+    </header>
+    <main>
+        <div id='chart_div'>bar chart</div>
+        <section id="playList">
+            <div class="top">
+                <h1>XXXX-billboard Hot 100</h1>
+                <p>Make playlist</p>
+            </div>
+            <div id="listContainer">
+                <div class="items">
+                    <p>No.1 XXXXX mecheal-jackson <span class="palyButton"></span></p>
+                </div>
+            </div>
+        </section>
+    </main>
+    <footer>
+
+    </footer>
+</body>
+
+</html>
