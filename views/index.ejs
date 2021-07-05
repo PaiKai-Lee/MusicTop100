@@ -12,47 +12,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=New+Rocker&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/css/index.css">
-    <script src="https://www.gstatic.com/charts/loader.js"></script>
-    <script>
-        google.charts.load('current', { packages: ['corechart'] });
-        google.charts.setOnLoadCallback(drawMultSeries);
-
-        function drawMultSeries() {
-            let data = google.visualization.arrayToDataTable([
-                ['Genres', '1983',],
-                ['R&B', 817500],
-                ['Rock', 3792000],
-                ['Blues', 2695000],
-                ['Hip hop', 2099000],
-                ['Country', 1526000],
-                ['Houston, TX', 2099000],
-                ['Houston, TX', 2099000],
-                ['Houston, TX', 2099000],
-                ['Houston, TX', 2099000],
-                ['Houston, TX', 2099000],
-                ['Houston, TX', 2099000],
-                ['Houston, TX', 2099000],
-                ['Houston, TX', 2099000],
-                ['Houston, TX', 2099000],
-                ['Houston, TX', 2099000],
-            ]);
-
-            let options = {
-                title: 'Genres of the year',
-                chartArea: { width: '50%', height: '70%' },
-                hAxis: {
-                    title: 'Total Population',
-                    minValue: 0
-                },
-                vAxis: {
-                    title: 'Genres'
-                }
-            };
-
-            let chart = new google.visualization.BarChart(document.getElementById('chart_div'));
-            chart.draw(data, options);
-        }
-    </script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 </head>
 
 <body>
@@ -64,15 +24,35 @@
         </nav>
     </header>
     <main>
-        <div id='chart_div'>bar chart</div>
-        <section id="playList">
-            <div class="top">
-                <h1>XXXX-billboard Hot 100</h1>
-                <p>Make playlist</p>
+        <section class="info">
+            <div id="BarChart"></div>
+            <div id="subGenres"></div>
+        </section>
+        <div class="slideContainer">
+            <input type="range" name="slideYear" value="1960" id="slideYear" min="1960" max="2020" step="1">
+            <input type="number" name="inputYear" value="1960" id="inputYear" min="1960" max="2020">
+        </div>
+        <section class="playList">
+            <div id="hot100">
+                <div class="top">
+                    <h1>XXXX-billboard Hot 100</h1>
+                    <p>Make playlist</p>
+                </div>
+                <div class="listContainer">
+                    <div class="items">
+                        <p>No.1 XXXXX mecheal-jackson <span class="palyButton"></span></p>
+                    </div>
+                </div>
             </div>
-            <div id="listContainer">
-                <div class="items">
-                    <p>No.1 XXXXX mecheal-jackson <span class="palyButton"></span></p>
+            <div id="myList">
+                <div class="top">
+                    <h1>XXXX</h1>
+                    <p>Make playlist</p>
+                </div>
+                <div class="listContainer">
+                    <div class="items">
+                        <p>No.1 XXXXX mecheal-jackson <span class="palyButton"></span></p>
+                    </div>
                 </div>
             </div>
         </section>
@@ -81,5 +61,5 @@
 
     </footer>
 </body>
-
+<script sync src="/js/index.js"></script>
 </html>

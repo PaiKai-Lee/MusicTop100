@@ -50,22 +50,39 @@ main{
     margin-right: auto;
     width: 1200px;
 }
-
-section#playList{
-    margin-left: auto;
-    margin-right: auto;
+main .info{
+    width: 100%;
     display: flex;
-    flex-direction: column;
-    align-items: center;
 }
-section #listContainer{
-    margin: 1rem 0;
-    border: 1px solid black;
-    width: 1200px;
+.info #BarChart{
+    width:70%;
+    height:80vh;
+}
+.info #subGenres{
+    width:30%;
+    border: 1px black solid;
+    margin: 3rem;
+}
+#slideYear{
+    width:80%;
+}
+section.playList{
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+}
+.playList .listContainer{
+    width: 100%;
+    height: 100%;
+    border: 1px black solid;
+}
+#hot100{
+    width: 45%;
     height: 800px;
 }
-#chart_div{
-    height:800px;
+#myList{
+    width: 45%;
+    height: 800px;
 }
 footer{
     background: black;

@@ -1,17 +1,8 @@
 import pandas as pd
-import mysql.connector
 import requests as rq
 import json,time
 from modulepy import getGenres
 import pymongo
-
-# mydb = mysql.connector.connect(
-#     host="localhost",
-#     user="root",
-#     password="abcd1234",
-#     database="top100"
-# )
-# cursor = mydb.cursor()
 
 myclient = pymongo.MongoClient("mongodb://localhost:27017/")
 mydb=myclient["top100"]
@@ -20,7 +11,7 @@ mycol=mydb["billboard"]
 #載入全部genres
 allGenres=getGenres.getGenres()
 
-for year in range(1972,1980):
+for year in range(2018,2019):
     print(year)
     songsList=[]
     genres={'main_genres':{},'sub_genres':{}}
@@ -48,7 +39,7 @@ for year in range(1972,1980):
         cut=0
     for singer in allArtists:
         cut+=1
-        if cut%50 == 0:
+        if cut%30 == 0:
             time.sleep(6)
         print(singer)
         if singer == "?":
@@ -57,35 +48,10 @@ for year in range(1972,1980):
             singer=singer.split(" (")[0]
         if " or " in singer:
             singer=singer.split(" or ")[0]
-        if singer == "The Hillside Singers":
-            continue
-        if singer == "Blue Ridge Rangers":
-            rock+=1
-            continue
-        if singer == "Sylvia Robinson":
-            RnB+=1
-            blues+=1
-            continue
-        if singer == "a Prayer Fife":
-            RnB+=1
-            continue
-        if singer == "DeEtta Little":
-            rock+=1
-            continue
-        if singer == "Lord David Dundas":
-            pop+=1
-            continue
-        if singer == "Rythm Syndicate":
-            RnB+=1
-            blues+=1
-            continue
-        if singer == "Eden's Crush":
-            pop+=1
-            continue
         res=rq.get(f"https://api.spotify.com/v1/search?q={singer}]&type=artist&limit=1",headers={
         "Content-Type":"application/json",
         "Accept":"application/json",
-        "Authorization":'Bearer {token}'.format(token="BQBrp9rKqaiPkYqV3gxrR199prLVCjv0tnsNOjujKT0BFKvtozCQLyKT19_I04fcTKf1gC53b4WikyV6fpU")
+        "Authorization":'Bearer {token}'.format(token="BQAxV2SFs4SzAGYSVn38n8HPjhwU8vTuHTgc7F9s4rnp_Q7uUR5BT9hsFjZwKV-YG61blRphTjo7RGcTvE8")
         }) 
         artist_genres=res.json()["artists"]["items"][0]["genres"]
         artist_genres=set(artist_genres)
@@ -175,12 +141,7 @@ for year in range(1972,1980):
         sub_genres_count[i]=sub_genres.count(i)
     genres["sub_genres"]=sub_genres_count
 
-    # # 資料庫儲存
-    # val=(year,json.dumps(songsList),json.dumps(genres))
-    # sql="INSERT INTO billboard (year,songs,genres) VALUES (%s,%s,%s)"
-    # cursor.execute(sql,val)
-    # mydb.commit()
-
     #MongoDB 儲存
-    mycol.insert_one({"year":year,"songs":songsList,"genres":genres})
+    # mycol.insert_one({"year":year,"songs":songsList,"genres":genres})
+    print({"year":year,"genres":genres})
 
