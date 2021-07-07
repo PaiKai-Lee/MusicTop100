@@ -22,9 +22,15 @@ app.get('/billboard/',(req,res)=>{
     dbo.collection("billboard").find({},{projection:{_id:0,year:1,genres:1}}).toArray(function(err, result) {
       if (err) throw err;
       result.forEach((n)=>{
+        let subGenresList=[]
+        for (let i in n["genres"]["sub_genres"]) {  
+          let subObj={}
+          subObj[i]=n["genres"]["sub_genres"][i]
+          subGenresList.push(subObj)
+        }
         let year=n["year"]
-        let mainGenres=n["genres"]["main_genres"]
-        data[year]=mainGenres
+        let genres={mainGenres:n["genres"]["main_genres"],subGenres:subGenresList}
+        data[year]=genres
       })
       res.send(data);
       db.close();

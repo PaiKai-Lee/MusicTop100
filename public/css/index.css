@@ -57,11 +57,32 @@ main .info{
 .info #BarChart{
     width:70%;
     height:80vh;
+    overflow: hidden;
 }
 .info #subGenres{
     width:30%;
+    height: 70vh;
     border: 1px black solid;
     margin: 3rem;
+    overflow-y: scroll;
+}
+#subGenres .subHeader{
+    display: flex;
+    font-size: 1.5rem;
+    justify-content: space-between;
+    background: black;
+    color: white;
+    padding: 5px;
+    position: sticky;
+    top:0;
+    box-shadow: 0px 2px 5px gray;
+}
+#subGenres .subDiv{
+    display: flex;
+    font-size: 1.5rem;
+    justify-content: space-between;
+    margin: 10px 0;
+    padding: 5px
 }
 #slideYear{
     width:80%;
