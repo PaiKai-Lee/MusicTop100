@@ -1,5 +1,39 @@
 google.charts.load('current', { 'packages': ['corechart'] });
 google.charts.setOnLoadCallback(drawChart);
+
+// subGenres處理
+let getsubGenres=(myjson,year=1960)=>{
+    let subGenres = myjson[year]["subGenres"]
+    let genresBox = document.querySelector("#subGenres")
+    let oldGenres=document.querySelectorAll(".subDiv")
+    // 清除舊subGenres
+    oldGenres.forEach((n)=>{
+        n.parentElement.removeChild(n)
+    })
+    // 由多到少,排列該年度sub_genres
+    subGenres.sort((a, b) => {
+        return Object.values(b) - Object.values(a)
+    })
+    let subTotal = 0;
+    subGenres.forEach(n => {
+        let number = Object.values(n)[0]
+        subTotal += number
+    })
+    subGenres.forEach(subGenre => {
+        let subTitle = document.createElement("h5")
+        subTitle.innerText = Object.keys(subGenre);
+        let subPercent = document.createElement("p")
+        let number=Object.values(subGenre)[0]/subTotal;
+        subPercent.innerText = `${Math.round(number*1000)/10}%`
+        let subDiv = document.createElement("div")
+        subDiv.classList.add("subDiv")
+        subDiv.appendChild(subTitle);
+        subDiv.appendChild(subPercent);
+        genresBox.appendChild(subDiv);
+    })
+}
+
+// barchart 處理
 function drawChart() {
     let loadData = async function () {
         let dList = []
@@ -15,6 +49,7 @@ function drawChart() {
             let percent = Math.round((myjson[1960]["mainGenres"][i] / x) * 100)
             dList.push([i, percent, i])
         }
+        getsubGenres(myjson)
         console.log(x)
         let chart = new google.visualization.BarChart(document.getElementById('BarChart'));
         let data = new google.visualization.DataTable();
@@ -39,11 +74,10 @@ function drawChart() {
                 gridlines: { minSpacing: 100 }
             }
         };
-        // Instantiate and draw our chart, passing in some options.
         chart.draw(data, options);
-        slideYear.addEventListener("input", () => {
+        slideYear.addEventListener("input", (year=1960) => {
             dList = []
-            let year = slideYear.value
+            year = slideYear.value
             let x = 0
             for (let i in myjson[year]["mainGenres"]) {
                 x += myjson[year]["mainGenres"][i]
@@ -52,7 +86,8 @@ function drawChart() {
                 let percent = Math.round((myjson[year]["mainGenres"][i] / x) * 100)
                 dList.push([i, percent, i])
             }
-            console.log(dList)
+            getsubGenres(myjson,year)
+            // console.log(dList)
             let data = new google.visualization.DataTable();
             data.addColumn('string', 'Genres');
             data.addColumn('number', 'percent');
@@ -82,38 +117,44 @@ function drawChart() {
     }
     loadData()
 }
-let t2 = async function () {
-    let res = await fetch("/billboard")
-    let myjson = await res.json()
-    let subGenres = myjson["1983"]["subGenres"]
-    let genresBox = document.querySelector("#subGenres")
-    subGenres.sort((a, b) => {
-        return Object.values(b) - Object.values(a)
-    })
-    let subTotal = 0;
-    subGenres.forEach(n => {
-        let number = Object.values(n)[0]
-        subTotal += number
-    })
-    console.log(subTotal)
 
-    subGenres.forEach(subGenre => {
-    
-        let subTitle = document.createElement("h5")
-        subTitle.innerText = Object.keys(subGenre);
-        let subPercent = document.createElement("p")
-        let number=Object.values(subGenre)[0]/subTotal;
-        subPercent.innerText = `${Math.round(number*1000)/10}%`
-        let subDiv = document.createElement("div")
-        subDiv.classList.add("subDiv")
-        subDiv.appendChild(subTitle);
-        subDiv.appendChild(subPercent);
-        genresBox.appendChild(subDiv);
-
-    })
-}
-t2()
-
+// Hot 100 list 處理
+let make100 = document.querySelector("#make100")
+make100.addEventListener("click",()=>{
+    let year=document.querySelector("#slideYear").value
+    let getList=async function(year){
+        let res= await fetch("/billboard",{
+            method:"POST",
+            headers:{'Content-Type':'application/json'},
+            body:JSON.stringify({year:year})
+        })
+        let myjson=await res.json()
+        let titleYear=make100.parentElement.children[0].children[0]
+        let hotListContainer=make100.parentElement.parentElement.children[1]
+        
+        titleYear.innerText=year
+        let songs=myjson["songs"]
+        songs.forEach((song,index)=>{
+            let itemBox=document.createElement("div")
+            itemBox.classList.add("items")
+            let rankP=document.createElement("p")
+            let songP=document.createElement("p")
+            let artistP=document.createElement("p")
+            let playBtn=document.createElement("button")
+            rankP.innerText=`NO.${index+1}`
+            songP.innerText=song["song"]
+            artistP.innerText=song["artist"]
+            playBtn.innerText="BTN"
+            itemBox.appendChild(rankP)
+            itemBox.appendChild(songP)
+            itemBox.appendChild(artistP)
+            itemBox.appendChild(playBtn)
+            hotListContainer.appendChild(itemBox)
+        })
+        
+    }
+    getList(year)
+})
 
 
 
