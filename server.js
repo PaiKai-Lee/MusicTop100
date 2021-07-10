@@ -1,3 +1,4 @@
+require('dotenv').config()
 const express = require('express');
 const path = require('path');
 const ejs = require('ejs')
@@ -8,6 +9,7 @@ const app = express();
 const host = 'localhost'
 // const host = '0.0.0.0'
 const port = 3000;
+const API_key=process.env.API_key
 let dburl= "mongodb://localhost:27017/";
 
 
@@ -65,7 +67,7 @@ app.post("/ytb",(req,res)=>{
   let song=songInfo["song"]
   let artist=songInfo["artist"]
   console.log(songInfo);
-  fetch(`https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=3&q=${song}%20${artist}&type=video&videoEmbeddable=true&key=AIzaSyALl8eFvJbbuGpyKXClPc59G8a4DKw5zsU`)
+  fetch(`https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=3&q=${song}%20${artist}&type=video&videoEmbeddable=true&key=${API_key}`)
   .then(res=>res.json())
   .then(myjson=>{
     let videoId=(myjson["items"][0]["id"]['videoId'])
