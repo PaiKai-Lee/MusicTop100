@@ -1,10 +1,12 @@
 const express = require('express');
 const path = require('path');
 const ejs = require('ejs')
-const bodyParser=require("body-parser")
+const fetch = require('node-fetch');
 const mongodb=require('mongodb')
 const MongoClient=mongodb.MongoClient
 const app = express();
+const host = 'localhost'
+// const host = '0.0.0.0'
 const port = 3000;
 let dburl= "mongodb://localhost:27017/";
 
@@ -19,9 +21,9 @@ app.get('/', (req, res) => {
 })
 
 app.get('/billboard/',(req,res)=>{
-  MongoClient.connect(dburl, function(err, db) {
-    let data={}
+  MongoClient.connect(dburl,{ useNewUrlParser: true, useUnifiedTopology: true },function(err, db) {
     if (err) throw err;
+    let data={}
     let dbcol = db.db("top100");
     dbcol.collection("billboard").find({},{projection:{_id:0,year:1,genres:1}}).toArray(function(err, result) {
       if (err) throw err;
@@ -46,7 +48,7 @@ app.post('/billboard',(req,res)=>{
   let data=req.body
   let year=Number(data["year"])
   console.log(year)
-  MongoClient.connect(dburl,function(err,db){
+  MongoClient.connect(dburl,{ useNewUrlParser: true, useUnifiedTopology: true },function(err,db){
     if (err) throw err;
     let dbcol=db.db('top100');
     let query={"year":year}
@@ -58,6 +60,20 @@ app.post('/billboard',(req,res)=>{
   })
 })
 
+app.post("/ytb",(req,res)=>{
+  let songInfo=req.body
+  let song=songInfo["song"]
+  let artist=songInfo["artist"]
+  console.log(songInfo);
+  fetch(`https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=3&q=${song}%20${artist}&type=video&videoEmbeddable=true&key=AIzaSyALl8eFvJbbuGpyKXClPc59G8a4DKw5zsU`)
+  .then(res=>res.json())
+  .then(myjson=>{
+    let videoId=(myjson["items"][0]["id"]['videoId'])
+    res.send({"videoId":videoId})
+  })
+  .catch(err=>console.error(err))
+})
+
 app.listen(port, () => {
-  console.log(`Server listening at http://localhost:${port}`)
+  console.log(`Server listening at http://${host}:${port}`)
 })

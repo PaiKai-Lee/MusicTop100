@@ -94,20 +94,31 @@ section.playList{
 }
 .playList .listContainer{
     width: 100%;
-    height: 100%;
+    height: 90%;
     border: 1px black solid;
     overflow-y: scroll;
 }
 #hot100{
-    width: 40%;
+    width: 45%;
     height: 800px;
 }
 .listContainer .items{
     border: 1px gray solid;
-    padding: 5px 0;
-    font-size: 1.5rem;
+    padding: 5px;
+    font-size: 1.25rem;
     display: flex;
-    justify-content: space-around;
+    justify-content:space-between;
+    align-items: center;
+
+}
+#hot100 .items p:nth-child(1){
+    width: 10%;
+}
+#hot100 .items p:nth-child(2){
+    width: 30%;
+}
+#hot100 .items p:nth-child(2){
+    width: 30%;
 }
 
 .top{
@@ -115,12 +126,24 @@ section.playList{
     justify-content: space-between;
     align-items: center;
 }
+.top p{
+    cursor: pointer;
+}
 #myList{
-    width: 40%;
+    width: 45%;
     height: 800px;
+}
+#player{
+    position: fixed;
+    left:0;
+    bottom: 100px;
+    width: 15%;
+    min-width: 200px;
+    height: 200px;
+    border: 1px black solid;
 }
 footer{
     background: black;
     width: 100%;
-    height: 10vh;
+    height: 100px;
 }

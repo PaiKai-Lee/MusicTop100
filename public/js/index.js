@@ -2,12 +2,12 @@ google.charts.load('current', { 'packages': ['corechart'] });
 google.charts.setOnLoadCallback(drawChart);
 
 // subGenres處理
-let getsubGenres=(myjson,year=1960)=>{
+let getsubGenres = (myjson, year = 1960) => {
     let subGenres = myjson[year]["subGenres"]
     let genresBox = document.querySelector("#subGenres")
-    let oldGenres=document.querySelectorAll(".subDiv")
+    let oldGenres = document.querySelectorAll(".subDiv")
     // 清除舊subGenres
-    oldGenres.forEach((n)=>{
+    oldGenres.forEach((n) => {
         n.parentElement.removeChild(n)
     })
     // 由多到少,排列該年度sub_genres
@@ -23,8 +23,8 @@ let getsubGenres=(myjson,year=1960)=>{
         let subTitle = document.createElement("h5")
         subTitle.innerText = Object.keys(subGenre);
         let subPercent = document.createElement("p")
-        let number=Object.values(subGenre)[0]/subTotal;
-        subPercent.innerText = `${Math.round(number*1000)/10}%`
+        let number = Object.values(subGenre)[0] / subTotal;
+        subPercent.innerText = `${Math.round(number * 1000) / 10}%`
         let subDiv = document.createElement("div")
         subDiv.classList.add("subDiv")
         subDiv.appendChild(subTitle);
@@ -75,7 +75,7 @@ function drawChart() {
             }
         };
         chart.draw(data, options);
-        slideYear.addEventListener("input", (year=1960) => {
+        slideYear.addEventListener("input", (year = 1960) => {
             dList = []
             year = slideYear.value
             let x = 0
@@ -86,7 +86,7 @@ function drawChart() {
                 let percent = Math.round((myjson[year]["mainGenres"][i] / x) * 100)
                 dList.push([i, percent, i])
             }
-            getsubGenres(myjson,year)
+            getsubGenres(myjson, year)
             // console.log(dList)
             let data = new google.visualization.DataTable();
             data.addColumn('string', 'Genres');
@@ -120,38 +120,76 @@ function drawChart() {
 
 // Hot 100 list 處理
 let make100 = document.querySelector("#make100")
-make100.addEventListener("click",()=>{
-    let year=document.querySelector("#slideYear").value
-    let getList=async function(year){
-        let res= await fetch("/billboard",{
-            method:"POST",
-            headers:{'Content-Type':'application/json'},
-            body:JSON.stringify({year:year})
+make100.addEventListener("click", () => {
+    let year = document.querySelector("#slideYear").value
+    let hotListContainer = make100.parentElement.parentElement.children[1]
+    hotListContainer.innerHTML = ""
+    let getList = async function (year) {
+        let res = await fetch("/billboard", {
+            method: "POST",
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ year: year })
         })
-        let myjson=await res.json()
-        let titleYear=make100.parentElement.children[0].children[0]
-        let hotListContainer=make100.parentElement.parentElement.children[1]
-        
-        titleYear.innerText=year
-        let songs=myjson["songs"]
-        songs.forEach((song,index)=>{
-            let itemBox=document.createElement("div")
+        let myjson = await res.json()
+        let titleYear = make100.parentElement.children[0].children[0]
+        let hotListContainer = make100.parentElement.parentElement.children[1]
+
+        titleYear.innerText = year
+        let songs = myjson["songs"]
+        songs.forEach((song, index) => {
+            let itemBox = document.createElement("div")
             itemBox.classList.add("items")
-            let rankP=document.createElement("p")
-            let songP=document.createElement("p")
-            let artistP=document.createElement("p")
-            let playBtn=document.createElement("button")
-            rankP.innerText=`NO.${index+1}`
-            songP.innerText=song["song"]
-            artistP.innerText=song["artist"]
-            playBtn.innerText="BTN"
+            let rankP = document.createElement("p")
+            let songP = document.createElement("p")
+            let artistP = document.createElement("p")
+            let checkInput = document.createElement("input")
+            checkInput.type = "checkbox"
+            let playBtn = document.createElement("button")
+            rankP.innerText = `NO.${index + 1}`
+            songP.innerText = song["song"]
+            artistP.innerText = song["artist"]
+            playBtn.innerText = "BTN"
+
+            // 歌曲播放youtube
+            playBtn.addEventListener("click", () => {
+                let song = playBtn.parentElement.children[1].innerText
+                let artist = playBtn.parentElement.children[2].innerText
+                let sessionVideo = sessionStorage.getItem(song)
+                let player=document.querySelector("#player").children[0]
+                let videoId
+                console.log(sessionVideo!== null)
+
+                // 檢查storage是否點擊過
+                if (sessionVideo !== null) {
+                    videoId = sessionVideo
+                    player.src=`https://www.youtube.com/embed/${videoId}`
+                    console.log(videoId)
+                } else {
+                    let playVideo = async function () {
+                        let res = await fetch("/ytb", {
+                            method: "POST",
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ "song": song, "artist": artist })
+                        })
+                        let myjson = await res.json()
+                        videoId = myjson["videoId"]
+                        sessionStorage.setItem(song, videoId)
+                        player.src=`https://www.youtube.com/embed/${videoId}`
+                        console.log(videoId)
+                    }
+                    playVideo()
+                }
+                
+            })
+
             itemBox.appendChild(rankP)
             itemBox.appendChild(songP)
             itemBox.appendChild(artistP)
+            itemBox.appendChild(checkInput)
             itemBox.appendChild(playBtn)
             hotListContainer.appendChild(itemBox)
         })
-        
+
     }
     getList(year)
 })
