@@ -75,6 +75,8 @@ function drawChart() {
             }
         };
         chart.draw(data, options);
+        
+        //滑動slide產生變化 
         slideYear.addEventListener("input", (year = 1960) => {
             dList = []
             year = slideYear.value
@@ -155,27 +157,32 @@ make100.addEventListener("click", () => {
                 let song = playBtn.parentElement.children[1].innerText
                 let artist = playBtn.parentElement.children[2].innerText
                 let sessionVideo = sessionStorage.getItem(song)
-                let player=document.querySelector("#player").children[0]
+                let player=document.querySelector("#cont").children[0]
                 let videoId
                 console.log(sessionVideo!== null)
 
                 // 檢查storage是否點擊過
                 if (sessionVideo !== null) {
-                    videoId = sessionVideo
-                    player.src=`https://www.youtube.com/embed/${videoId}`
-                    console.log(videoId)
+                    // videoId = sessionVideo 
+                    videoId = "UPASPeYYtHs" 
+                    player.src=`https://www.youtube.com/embed/${videoId}?autoplay=1`
                 } else {
                     let playVideo = async function () {
-                        let res = await fetch("/ytb", {
-                            method: "POST",
-                            headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify({ "song": song, "artist": artist })
-                        })
-                        let myjson = await res.json()
-                        videoId = myjson["videoId"]
-                        sessionStorage.setItem(song, videoId)
-                        player.src=`https://www.youtube.com/embed/${videoId}`
-                        console.log(videoId)
+                        try{
+                            let res = await fetch("/ytb", {
+                                method: "POST",
+                                headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify({ "song": song, "artist": artist })
+                            })
+                            let myjson = await res.json()
+                            // videoId = myjson["videoId"]
+                            videoId = "UPASPeYYtHs"
+                            sessionStorage.setItem(song, videoId)
+                            player.src=`https://www.youtube.com/embed/${videoId}?autoplay=1`
+                        }
+                        catch(e){
+                            console.error("play button fetch error")
+                        }
                     }
                     playVideo()
                 }
@@ -192,6 +199,26 @@ make100.addEventListener("click", () => {
 
     }
     getList(year)
+})
+
+function debounce(method, delay) {
+    clearTimeout(method._tId);
+    method._tId= setTimeout(function(){
+        method();
+    }, delay);
+}
+window.addEventListener("scroll",(e)=>{
+    debounce(function(){
+        let h = document.documentElement.clientHeight
+        let scroll =document.body.scrollHeight-window.scrollY
+        if(scroll-120 < h){
+            document.querySelector("#player").classList.add("move");
+        }
+        if(scroll-125 > h){
+            document.querySelector("#player").classList.remove("move");
+        }
+    }, 100);
+
 })
 
 

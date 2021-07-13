@@ -1,13 +1,17 @@
 require('dotenv').config()
 const express = require('express');
+const session = require('express-session')
 const path = require('path');
 const ejs = require('ejs')
 const fetch = require('node-fetch');
 const mongodb=require('mongodb')
+const userRouter=require("./routes/user")
+
 const MongoClient=mongodb.MongoClient
 const app = express();
+
+
 const host = 'localhost'
-// const host = '0.0.0.0'
 const port = 3000;
 const API_key=process.env.API_key
 let dburl= "mongodb://localhost:27017/";
@@ -17,10 +21,19 @@ app.set('view engine', 'ejs');
 app.use(express.static("public"));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(session({
+  secret: 'keyboard cat',
+  resave: false,
+  saveUninitialized: true,
+  // cookie: { secure: true }
+}))
+
+app.use("/user",userRouter)
 
 app.get('/', (req, res) => {
   res.render('index.ejs')
 })
+
 
 app.get('/billboard/',(req,res)=>{
   MongoClient.connect(dburl,{ useNewUrlParser: true, useUnifiedTopology: true },function(err, db) {
@@ -74,6 +87,15 @@ app.post("/ytb",(req,res)=>{
     res.send({"videoId":videoId})
   })
   .catch(err=>console.error(err))
+})
+
+app.get("/*",(req,res)=>{
+  res.redirect("/")
+})
+
+app.use((err,req,res,next)=>{
+  console.log(err)
+  res.status(500).send("Something broken,need to be fixed")
 })
 
 app.listen(port, () => {

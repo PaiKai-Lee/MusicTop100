@@ -20,7 +20,7 @@
         <h1>Music Top 100</h1>
         <nav>
             <a href="#">Genres flow</a>
-            <a href="#">Top guitarists</a>
+            <a href="/user/login">Login/Signup</a>
         </nav>
     </header>
     <main>
@@ -32,11 +32,11 @@
                     <p>Percent</p>
                 </div>
             </div>
+            <div class="slideContainer">
+                <input type="range" name="slideYear" value="1960" id="slideYear" min="1960" max="2020" step="1">
+                <input type="number" name="inputYear" value="1960" id="inputYear" min="1960" max="2020">
+            </div>
         </section>
-        <div class="slideContainer">
-            <input type="range" name="slideYear" value="1960" id="slideYear" min="1960" max="2020" step="1">
-            <input type="number" name="inputYear" value="1960" id="inputYear" min="1960" max="2020">
-        </div>
         <section class="playList">
             <div id="hot100">
                 <div class="top">
@@ -62,7 +62,7 @@
             </div>
         </section>
     </main>
-    <div id="player"><iframe id="player" type="text/html" width="640" height="390" frameborder="0"></iframe>
+    <div id="cont"><iframe id="player" class="player" type="text/html" frameborder="0" allow="autoplay" allowfullscreen></iframe>
       </div>
     <footer>
 
