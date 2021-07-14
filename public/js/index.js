@@ -1,6 +1,36 @@
 google.charts.load('current', { 'packages': ['corechart'] });
 google.charts.setOnLoadCallback(drawChart);
 
+const nav = document.querySelector("nav")
+let valid = async () => {
+    let res = await fetch("/user/api")
+    let myjson = await res.json()
+    let login=nav.children[1]
+    let logout=nav.children[2]
+    console.log(myjson["status"])
+    if (myjson["status"] === "ok") {
+        login.style.display="none";
+        logout.style.display="inline-block";
+    }
+    else {
+        login.style.display="inline-block";
+        logout.style.display="none";
+        console.log("bad")
+    }
+}
+valid()
+
+let logout=nav.children[2]
+logout.addEventListener("click",()=>{
+    let signOut=async()=>{
+        let res=await fetch("/user/api",{method:"DELETE"})
+        let myjson=await res.json()
+        location.reload()
+    }
+    signOut()
+})
+
+
 // subGenres處理
 let getsubGenres = (myjson, year = 1960) => {
     let subGenres = myjson[year]["subGenres"]
@@ -75,7 +105,7 @@ function drawChart() {
             }
         };
         chart.draw(data, options);
-        
+
         //滑動slide產生變化 
         slideYear.addEventListener("input", (year = 1960) => {
             dList = []
@@ -144,55 +174,59 @@ make100.addEventListener("click", () => {
             let rankP = document.createElement("p")
             let songP = document.createElement("p")
             let artistP = document.createElement("p")
-            let checkInput = document.createElement("input")
-            checkInput.type = "checkbox"
+            let heartBtn = document.createElement("button")
+            let heartImg=document.createElement("img")
+            let ytbImg=document.createElement("img")
+            ytbImg.src="/img/ytb.png"
+            heartImg.src="/img/heart.svg"
             let playBtn = document.createElement("button")
             rankP.innerText = `NO.${index + 1}`
             songP.innerText = song["song"]
             artistP.innerText = song["artist"]
-            playBtn.innerText = "BTN"
+            playBtn.appendChild(ytbImg) 
+            heartBtn.appendChild(heartImg)
 
             // 歌曲播放youtube
             playBtn.addEventListener("click", () => {
                 let song = playBtn.parentElement.children[1].innerText
                 let artist = playBtn.parentElement.children[2].innerText
                 let sessionVideo = sessionStorage.getItem(song)
-                let player=document.querySelector("#cont").children[0]
+                let player = document.querySelector("#cont").children[0]
                 let videoId
-                console.log(sessionVideo!== null)
+                console.log(sessionVideo !== null)
 
                 // 檢查storage是否點擊過
                 if (sessionVideo !== null) {
-                    // videoId = sessionVideo 
-                    videoId = "UPASPeYYtHs" 
-                    player.src=`https://www.youtube.com/embed/${videoId}?autoplay=1`
+                    videoId = sessionVideo 
+                    // videoId = "UPASPeYYtHs"
+                    player.src = `https://www.youtube.com/embed/${videoId}?autoplay=1`
                 } else {
                     let playVideo = async function () {
-                        try{
+                        try {
                             let res = await fetch("/ytb", {
                                 method: "POST",
                                 headers: { 'Content-Type': 'application/json' },
                                 body: JSON.stringify({ "song": song, "artist": artist })
                             })
                             let myjson = await res.json()
-                            // videoId = myjson["videoId"]
-                            videoId = "UPASPeYYtHs"
+                            videoId = myjson["videoId"]
+                            // videoId = "UPASPeYYtHs"
                             sessionStorage.setItem(song, videoId)
-                            player.src=`https://www.youtube.com/embed/${videoId}?autoplay=1`
+                            player.src = `https://www.youtube.com/embed/${videoId}?autoplay=1`
                         }
-                        catch(e){
+                        catch (e) {
                             console.error("play button fetch error")
                         }
                     }
                     playVideo()
                 }
-                
+
             })
 
             itemBox.appendChild(rankP)
             itemBox.appendChild(songP)
             itemBox.appendChild(artistP)
-            itemBox.appendChild(checkInput)
+            itemBox.appendChild(heartBtn)
             itemBox.appendChild(playBtn)
             hotListContainer.appendChild(itemBox)
         })
@@ -203,23 +237,25 @@ make100.addEventListener("click", () => {
 
 function debounce(method, delay) {
     clearTimeout(method._tId);
-    method._tId= setTimeout(function(){
+    method._tId = setTimeout(function () {
         method();
     }, delay);
 }
-window.addEventListener("scroll",(e)=>{
-    debounce(function(){
+window.addEventListener("scroll", (e) => {
+    debounce(function () {
         let h = document.documentElement.clientHeight
-        let scroll =document.body.scrollHeight-window.scrollY
-        if(scroll-120 < h){
+        let scroll = document.body.scrollHeight - window.scrollY
+        if (scroll - 120 < h) {
             document.querySelector("#player").classList.add("move");
         }
-        if(scroll-125 > h){
+        if (scroll - 125 > h) {
             document.querySelector("#player").classList.remove("move");
         }
     }, 100);
 
 })
+
+// 收藏清單
 
 
 

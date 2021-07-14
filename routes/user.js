@@ -1,64 +1,108 @@
 const express = require("express")
-const router = express.Router()
+const member= express.Router()
 const mongodb = require('mongodb')
 const MongoClient = mongodb.MongoClient
+const session = require('express-session')
 const { createHash } = require('crypto');
-const hash = createHash('sha256')
 let dburl = "mongodb://localhost:27017/";
 
-router.get("/login", (req, res) => {
-    res.render("login.ejs")
+// router.get("/login", (req, res) => {
+//     res.render("login.ejs")
+// })
+
+member.use(session({
+    // 測試後須隱藏重設
+    secret: 'recommand 128 bytes random string',
+    resave: false,
+    saveUninitialized: true,
+    cookie: { maxAge: 1*24*3600*1000} //10天到期
+  }));
+
+// 取得會員狀態
+member.get("/api",(req,res)=>{
+    if (req.session.user!=undefined && req.session.user==true){
+        res.status(200).send({"status":"ok"})
+    }
+    else{
+        res.status(200).send({"status":"error"})
+    }
 })
 
 // 會員登入
-router.patch("/api", (req, res) => {
+member.patch("/api", (req, res) => {
+    
     let data = req.body
     let email = data["email"]
     let password = data["password"]
-    MongoClient.connect(dburl, function (err, db) {
+    
+    MongoClient.connect(dburl,{ useNewUrlParser: true, useUnifiedTopology: true }, function (err, db) {
         if (err) throw err;
         let dbcol = db.db("top100")
         let query = { "email": email };
         dbcol.collection("user").findOne(query, (err, result) => {
             if (err) throw err;
             db.close()
-            let salt=result["salt"]
-            let dbPass=result["password"]
+            if (result == null){
+                res.send({"status":"error","message": "帳號或密碼錯誤"})
+                return 
+            }
+            let salt = result["salt"]
+            let dbPass = result["password"]
+            const hash = createHash('sha256')
             hash.update(salt + password);
             password = hash.digest('hex');
-            if (password==dbPass){
+            if (password == dbPass) {
                 // 設定session //
+                req.session.user=true;
                 res.send({
                     "status":"ok"
                 })
+            }else{
+                res.send({"status":"error","message": "帳號或密碼錯誤"})
             }
-            
+
         })
     });
 })
 
 // 會員註冊
-router.post("/api", (req, res) => {
+member.post("/api", (req, res) => {
     let data = req.body
     let user = data["user"]
     let email = data["email"]
     let password = data["password"]
-    // email比對 //
     let salt = Date.now()
-    hash.update(salt + password);
-    password = hash.digest('hex');
-    MongoClient.connect(dburl, function (err, db) {
+
+    MongoClient.connect(dburl,{ useNewUrlParser: true, useUnifiedTopology: true },function (err, db) {
         if (err) { throw err };
         let dbcol = db.db("top100")
-        let obj = { "user": user, "email": email, "password": password, "salt": salt, "date": new Date() };
-        dbcol.collection("user").insertOne(obj, (err, result) => {
+        dbcol.collection("user").findOne({ "email": email }, (err, result) => {
             if (err) throw err;
-            console.log("Data has been saved")
-            db.close()
+            if (result != null) {
+                console.log(result)
+                res.status(400).send({ "status": "error","message": "此Emai已註冊" })
+            } else {
+                const hash = createHash('sha256')
+                password = hash.update(salt + password).digest('hex');
+                let obj = { "user": user, "email": email, "password": password, "salt": salt, "date": new Date() };
+                dbcol.collection("user").insertOne(obj, (err, result) => {
+                    if (err) throw err;
+                    console.log("Data has been saved")
+                    db.close()
+                })
+                res.status(200).send({ "status": "ok" })
+            }
         })
     });
-    res.send({ "message": "ok" })
+})
+
+// 登出會員
+member.delete("/api",(req,res)=>{
+    req.session.destroy();
+    return res.send({
+        "status":"ok"
+    });
 })
 
 
-module.exports = router;
+module.exports = member;

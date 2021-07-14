@@ -20,7 +20,11 @@ loginBtn.addEventListener("click", (e) => {
     })
     .then(res => res.json())
     .then((myjson) => {
-        console.log(myjson)
+        if (myjson["status"]==="ok"){
+            window.location.assign("/")
+        }else{
+            alert(myjson["message"])
+        }
     })
     .catch(e=>{console.log(e)})
 })
@@ -55,3 +59,4 @@ toLogin.addEventListener("click",()=>{
     loginForm.classList.toggle("hide");
     signupForm.classList.toggle("hide");
 })
+

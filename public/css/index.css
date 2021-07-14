@@ -114,6 +114,7 @@ section.playList{
 }
 .listContainer .items{
     border: 1px gray solid;
+    height: 4rem;
     padding: 5px;
     font-size: 1.25rem;
     display: flex;
@@ -127,8 +128,26 @@ section.playList{
 #hot100 .items p:nth-child(2){
     width: 30%;
 }
-#hot100 .items p:nth-child(2){
+#hot100 .items p:nth-child(3){
     width: 30%;
+}
+#hot100 .items button:nth-child(4){
+    width: 5%;
+    background-color: transparent;
+    border: none;
+}
+
+#hot100 .items button{
+    width: 10%;
+    background-color: transparent;
+    border: none;
+}
+#hot100 .items button img{
+    width: 100%;
+    cursor: pointer;
+}
+#hot100 .items button img:hover{
+    opacity: 0.6;
 }
 
 .top{

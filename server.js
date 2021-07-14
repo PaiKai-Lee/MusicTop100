@@ -1,11 +1,12 @@
 require('dotenv').config()
 const express = require('express');
-const session = require('express-session')
 const path = require('path');
 const ejs = require('ejs')
 const fetch = require('node-fetch');
 const mongodb=require('mongodb')
 const userRouter=require("./routes/user")
+
+
 
 const MongoClient=mongodb.MongoClient
 const app = express();
@@ -21,17 +22,15 @@ app.set('view engine', 'ejs');
 app.use(express.static("public"));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-app.use(session({
-  secret: 'keyboard cat',
-  resave: false,
-  saveUninitialized: true,
-  // cookie: { secure: true }
-}))
 
 app.use("/user",userRouter)
 
 app.get('/', (req, res) => {
   res.render('index.ejs')
+})
+
+app.get("/user/login", (req, res) => {
+  res.render("login.ejs")
 })
 
 
