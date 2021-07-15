@@ -122,6 +122,8 @@ section.playList{
     align-items: center;
 
 }
+
+/* Hot100 List */
 #hot100 .items p:nth-child(1){
     width: 10%;
 }
@@ -131,12 +133,6 @@ section.playList{
 #hot100 .items p:nth-child(3){
     width: 30%;
 }
-#hot100 .items button:nth-child(4){
-    width: 5%;
-    background-color: transparent;
-    border: none;
-}
-
 #hot100 .items button{
     width: 10%;
     background-color: transparent;
@@ -149,6 +145,33 @@ section.playList{
 #hot100 .items button img:hover{
     opacity: 0.6;
 }
+#hot100 .items button:nth-child(4){
+    width: 5%;
+}
+
+/* 收藏清單 */
+#myList .items p:nth-child(1){
+    width: 30%;
+}
+#myList .items p:nth-child(2){
+    width: 30%;
+}
+#myList .items button{
+    width: 10%;
+    background-color: transparent;
+    border: none;
+}
+#myList .items button img{
+    width: 100%;
+    cursor: pointer;
+}
+#myList .items button img:hover{
+    opacity: 0.6;
+}
+#myList .items button:nth-child(3){
+    width: 5%;
+}
+
 
 .top{
     display: flex;

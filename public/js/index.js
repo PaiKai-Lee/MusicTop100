@@ -177,14 +177,58 @@ make100.addEventListener("click", () => {
             let heartBtn = document.createElement("button")
             let heartImg=document.createElement("img")
             let ytbImg=document.createElement("img")
+            let playBtn = document.createElement("button")
+            
             ytbImg.src="/img/ytb.png"
             heartImg.src="/img/heart.svg"
-            let playBtn = document.createElement("button")
+            heartBtn.classList.add("heartBtn")
+            
             rankP.innerText = `NO.${index + 1}`
             songP.innerText = song["song"]
             artistP.innerText = song["artist"]
             playBtn.appendChild(ytbImg) 
             heartBtn.appendChild(heartImg)
+            
+            // 收藏list處理 
+            heartBtn.addEventListener("click",()=>{
+                let  makeFavor = async () => {
+                    let res = await fetch("/user/api")
+                    let myjson = await res.json()
+                    // 判斷是否登入
+                    if (myjson["status"] === "ok") {
+                        heartImg.src="/img/fullheart.svg"
+                        let song = playBtn.parentElement.children[1].innerText
+                        let artist = playBtn.parentElement.children[2].innerText
+                        console.log(song,artist)
+                        let myListContainer=document.querySelector("#myList").children[1]
+                        let mySongP=document.createElement("p")
+                        let myArtistP=document.createElement("p")
+                        let myItemBox = document.createElement("div")
+                        let myHeartBtn = document.createElement("button")
+                        let myHeartImg=document.createElement("img")
+                        let myYtbImg=document.createElement("img")
+                        let myPlayBtn = document.createElement("button")
+                        myPlayBtn.appendChild(myYtbImg) 
+                        myYtbImg.src="/img/ytb.png"
+                        myHeartImg.src="/img/fullheart.svg"
+                        myItemBox.classList.add("items")
+                        mySongP.innerText=song;
+                        myArtistP.innerText=artist;
+
+                        myHeartBtn.appendChild(myHeartImg);
+                        myItemBox.appendChild(mySongP);
+                        myItemBox.appendChild(myArtistP);
+                        myItemBox.appendChild(myHeartBtn);
+                        myItemBox.appendChild(myPlayBtn)
+                        myListContainer.appendChild(myItemBox)
+ 
+                    }
+                    else {
+                        alert("加入會員，建立個人清單")
+                    }
+                }
+                makeFavor()
+            })
 
             // 歌曲播放youtube
             playBtn.addEventListener("click", () => {
@@ -194,7 +238,6 @@ make100.addEventListener("click", () => {
                 let player = document.querySelector("#cont").children[0]
                 let videoId
                 console.log(sessionVideo !== null)
-
                 // 檢查storage是否點擊過
                 if (sessionVideo !== null) {
                     videoId = sessionVideo 
@@ -255,7 +298,6 @@ window.addEventListener("scroll", (e) => {
 
 })
 
-// 收藏清單
 
 
 

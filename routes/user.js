@@ -20,7 +20,7 @@ member.use(session({
 
 // 取得會員狀態
 member.get("/api",(req,res)=>{
-    if (req.session.user!=undefined && req.session.user==true){
+    if (req.session.valid!=undefined && req.session.valid==true){
         res.status(200).send({"status":"ok"})
     }
     else{
@@ -53,7 +53,8 @@ member.patch("/api", (req, res) => {
             password = hash.digest('hex');
             if (password == dbPass) {
                 // 設定session //
-                req.session.user=true;
+                req.session.valid=true;
+                req.session.user=email;
                 res.send({
                     "status":"ok"
                 })
