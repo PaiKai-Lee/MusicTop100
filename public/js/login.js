@@ -46,7 +46,14 @@ signupBtn.addEventListener("click", (e) => {
     })
     .then(res => res.json())
     .then((myjson) => {
-        console.log(myjson)
+        if (myjson["status"]==="error"){
+            alert(myjson["message"])
+        }else{
+            alert("註冊成功")
+            signupForm.children[1].value=""
+            signupForm.children[2].value=""
+            signupForm.children[3].value=""
+        }
     })
     .catch(e=>{console.error(e)})
 })

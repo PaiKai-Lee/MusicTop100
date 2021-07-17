@@ -5,8 +5,8 @@ const ejs = require('ejs')
 const fetch = require('node-fetch');
 const mongodb=require('mongodb')
 const userRouter=require("./routes/user")
-
-
+const listRouter=require("./routes/myList")
+const session = require('express-session')
 
 const MongoClient=mongodb.MongoClient
 const app = express();
@@ -17,6 +17,14 @@ const port = 3000;
 const API_key=process.env.API_key
 let dburl= "mongodb://localhost:27017/";
 
+app.use(session({
+  // 測試後須隱藏重設
+  secret: 'recommand 128 bytes random string',
+  resave: false,
+  saveUninitialized: true,
+  cookie: { maxAge: 1*24*3600*1000} //10天到期
+}));
+
 
 app.set('view engine', 'ejs');
 app.use(express.static("public"));
@@ -24,6 +32,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 app.use("/user",userRouter)
+app.use("/list",listRouter)
 
 app.get('/', (req, res) => {
   res.render('index.ejs')
@@ -32,7 +41,6 @@ app.get('/', (req, res) => {
 app.get("/user/login", (req, res) => {
   res.render("login.ejs")
 })
-
 
 app.get('/billboard/',(req,res)=>{
   MongoClient.connect(dburl,{ useNewUrlParser: true, useUnifiedTopology: true },function(err, db) {

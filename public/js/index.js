@@ -1,35 +1,104 @@
 google.charts.load('current', { 'packages': ['corechart'] });
 google.charts.setOnLoadCallback(drawChart);
 
+// 撥歌
+let playSong = (song, artist) => {
+    let sessionVideo = sessionStorage.getItem(song)
+    let player = document.querySelector("#cont").children[0]
+    let videoId
+    console.log(sessionVideo !== null)
+    // 檢查storage是否點擊過
+    if (sessionVideo !== null) {
+        videoId = sessionVideo
+        // videoId = "UPASPeYYtHs"
+        player.src = `https://www.youtube.com/embed/${videoId}?autoplay=1`
+    } else {
+        let playVideo = async function () {
+            try {
+                let res = await fetch("/ytb", {
+                    method: "POST",
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ "song": song, "artist": artist })
+                })
+                let myjson = await res.json()
+                videoId = myjson["videoId"]
+                // videoId = "UPASPeYYtHs"
+                sessionStorage.setItem(song, videoId)
+                player.src = `https://www.youtube.com/embed/${videoId}?autoplay=1`
+            }
+            catch (e) {
+                console.error("play button fetch error")
+            }
+        }
+        playVideo()
+    }
+}
+// 產生個人清單
+let personList = (song, artist) => {
+    let myListContainer = document.querySelector("#myList").children[1]
+    let mySongP = document.createElement("p")
+    let myArtistP = document.createElement("p")
+    let myItemBox = document.createElement("div")
+    let myHeartBtn = document.createElement("button")
+    let myHeartImg = document.createElement("img")
+    let myYtbImg = document.createElement("img")
+    let myPlayBtn = document.createElement("button")
+    myPlayBtn.appendChild(myYtbImg)
+    myYtbImg.src = "/img/ytb.png"
+    myHeartImg.src = "/img/fullheart.svg"
+    myItemBox.classList.add("items")
+    mySongP.innerText = song;
+    myArtistP.innerText = artist;
+
+    myPlayBtn.addEventListener("click", () => {
+        let song = myPlayBtn.parentElement.children[0].innerText
+        let artist = myPlayBtn.parentElement.children[1].innerText
+        playSong(song, artist)
+    })
+
+    myHeartBtn.appendChild(myHeartImg);
+    myItemBox.appendChild(mySongP);
+    myItemBox.appendChild(myArtistP);
+    myItemBox.appendChild(myHeartBtn);
+    myItemBox.appendChild(myPlayBtn)
+    myListContainer.appendChild(myItemBox)
+}
+
+//進網頁驗證 
 const nav = document.querySelector("nav")
 let valid = async () => {
     let res = await fetch("/user/api")
     let myjson = await res.json()
-    let login=nav.children[1]
-    let logout=nav.children[2]
+    let login = nav.children[1]
+    let logout = nav.children[2]
     console.log(myjson["status"])
     if (myjson["status"] === "ok") {
-        login.style.display="none";
-        logout.style.display="inline-block";
+        login.style.display = "none";
+        logout.style.display = "inline-block";
+        // 顯示個人清單....
+        let res = await fetch("/list/api")
+        let myjson = await res.json()
+        myjson.forEach(item => {
+            let song = item["song"];
+            let artist = item["artist"]
+            personList(song, artist)
+        })
     }
     else {
-        login.style.display="inline-block";
-        logout.style.display="none";
+        login.style.display = "inline-block";
+        logout.style.display = "none";
         console.log("bad")
     }
 }
 valid()
 
-let logout=nav.children[2]
-logout.addEventListener("click",()=>{
-    let signOut=async()=>{
-        let res=await fetch("/user/api",{method:"DELETE"})
-        let myjson=await res.json()
+let logout = nav.children[2]
+logout.addEventListener("click", () => {
+    (async () => {
+        await fetch("/user/api", { method: "DELETE" })
         location.reload()
-    }
-    signOut()
+    })();
 })
-
 
 // subGenres處理
 let getsubGenres = (myjson, year = 1960) => {
@@ -175,53 +244,61 @@ make100.addEventListener("click", () => {
             let songP = document.createElement("p")
             let artistP = document.createElement("p")
             let heartBtn = document.createElement("button")
-            let heartImg=document.createElement("img")
-            let ytbImg=document.createElement("img")
+            let heartImg = document.createElement("img")
+            let ytbImg = document.createElement("img")
             let playBtn = document.createElement("button")
-            
-            ytbImg.src="/img/ytb.png"
-            heartImg.src="/img/heart.svg"
-            heartBtn.classList.add("heartBtn")
+
+            ytbImg.src = "/img/ytb.png";
+            heartBtn.classList.add("heartBtn");
+
+            // 判斷是否已加入清單
+            (async () => {
+                try{
+                    let res = await fetch("/list/api")
+                    let myjson = await res.json()
+                    let checkList = myjson.some(item=>item["song"] === song["song"])
+                    if (checkList===true){
+                        heartImg.src = "/img/fullheart.svg"
+                    }else{
+                        heartImg.src = "/img/heart.svg"
+                    }
+                }catch(e){
+                    heartImg.src = "/img/heart.svg"
+                }
+            })();
             
             rankP.innerText = `NO.${index + 1}`
             songP.innerText = song["song"]
             artistP.innerText = song["artist"]
-            playBtn.appendChild(ytbImg) 
+            playBtn.appendChild(ytbImg)
             heartBtn.appendChild(heartImg)
-            
+
             // 收藏list處理 
-            heartBtn.addEventListener("click",()=>{
-                let  makeFavor = async () => {
+            heartBtn.addEventListener("click", () => {
+                let makeFavor = async () => {
                     let res = await fetch("/user/api")
                     let myjson = await res.json()
                     // 判斷是否登入
                     if (myjson["status"] === "ok") {
-                        heartImg.src="/img/fullheart.svg"
+                        heartImg.src = "/img/fullheart.svg"
                         let song = playBtn.parentElement.children[1].innerText
                         let artist = playBtn.parentElement.children[2].innerText
-                        console.log(song,artist)
-                        let myListContainer=document.querySelector("#myList").children[1]
-                        let mySongP=document.createElement("p")
-                        let myArtistP=document.createElement("p")
-                        let myItemBox = document.createElement("div")
-                        let myHeartBtn = document.createElement("button")
-                        let myHeartImg=document.createElement("img")
-                        let myYtbImg=document.createElement("img")
-                        let myPlayBtn = document.createElement("button")
-                        myPlayBtn.appendChild(myYtbImg) 
-                        myYtbImg.src="/img/ytb.png"
-                        myHeartImg.src="/img/fullheart.svg"
-                        myItemBox.classList.add("items")
-                        mySongP.innerText=song;
-                        myArtistP.innerText=artist;
+                        console.log(song, artist)
 
-                        myHeartBtn.appendChild(myHeartImg);
-                        myItemBox.appendChild(mySongP);
-                        myItemBox.appendChild(myArtistP);
-                        myItemBox.appendChild(myHeartBtn);
-                        myItemBox.appendChild(myPlayBtn)
-                        myListContainer.appendChild(myItemBox)
- 
+                        let insertFavorDB = async () => {
+                            let res = await fetch("/list/api", {
+                                method: "POST",
+                                headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify({ "song": song, "artist": artist })
+                            })
+                            let myjson = await res.json()
+                            // 無重複且存入資料庫回復"ok"
+                            if (myjson["status"] === "ok") {
+                                // 產生list item函式
+                                personList(song, artist)
+                            }
+                        }
+                        insertFavorDB()
                     }
                     else {
                         alert("加入會員，建立個人清單")
@@ -230,40 +307,11 @@ make100.addEventListener("click", () => {
                 makeFavor()
             })
 
-            // 歌曲播放youtube
+            // Hot100歌曲播放youtube
             playBtn.addEventListener("click", () => {
                 let song = playBtn.parentElement.children[1].innerText
                 let artist = playBtn.parentElement.children[2].innerText
-                let sessionVideo = sessionStorage.getItem(song)
-                let player = document.querySelector("#cont").children[0]
-                let videoId
-                console.log(sessionVideo !== null)
-                // 檢查storage是否點擊過
-                if (sessionVideo !== null) {
-                    videoId = sessionVideo 
-                    // videoId = "UPASPeYYtHs"
-                    player.src = `https://www.youtube.com/embed/${videoId}?autoplay=1`
-                } else {
-                    let playVideo = async function () {
-                        try {
-                            let res = await fetch("/ytb", {
-                                method: "POST",
-                                headers: { 'Content-Type': 'application/json' },
-                                body: JSON.stringify({ "song": song, "artist": artist })
-                            })
-                            let myjson = await res.json()
-                            videoId = myjson["videoId"]
-                            // videoId = "UPASPeYYtHs"
-                            sessionStorage.setItem(song, videoId)
-                            player.src = `https://www.youtube.com/embed/${videoId}?autoplay=1`
-                        }
-                        catch (e) {
-                            console.error("play button fetch error")
-                        }
-                    }
-                    playVideo()
-                }
-
+                playSong(song, artist)
             })
 
             itemBox.appendChild(rankP)
@@ -297,13 +345,3 @@ window.addEventListener("scroll", (e) => {
     }, 100);
 
 })
-
-
-
-
-
-
-
-
-
-
