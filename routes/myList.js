@@ -77,16 +77,23 @@ myList.post("/api", (req, res) => {
 
 // myList.delete("/api",(req,res)=>{
 //     let data=req.body
-//     let email=req.session.email;
-//     console.log(email);
+//     let email=req.session.user;
 //     let song=data["song"]
-//     let artist=data["artist"]
-//     let query=
-//     MongoClient.connect(dburl,{ useNewUrlParser: true, useUnifiedTopology: true },function(err,db){
+//     let query={"email":email}
+//     MongoClient.connect(dburl,{ useNewUrlParser: true, useUnifiedTopology: true },async(err,db)=>{
 //         if (err) { throw err };
-//         let dbcol=db.db("100");
-//         dbcol.collection("user").findOneAndDelete(query,)
-
+//         try{
+//             let dbcol=db.db("100");
+//             let result = await dbcol.collection("user").findOne(query,{project:{song:1}});
+//             let songs = result["song"]
+//             let songs=songs.filter(item=>item.song!==song)
+//             console.log(songs)
+//             // dbcol.collection("user").findOneAndUpdate(query,)
+//         }catch(e){
+//             console.log(`deleteError:${e}`)
+//         }finally{
+//             db.close()
+//         }
 //     })
 // })
 

@@ -15,11 +15,12 @@ const app = express();
 const host = 'localhost'
 const port = 3000;
 const API_key=process.env.API_key
+const SECRET_KEY=process.env.SECRET_KEY
 let dburl= "mongodb://localhost:27017/";
 
 app.use(session({
   // 測試後須隱藏重設
-  secret: 'recommand 128 bytes random string',
+  secret: SECRET_KEY,
   resave: false,
   saveUninitialized: true,
   cookie: { maxAge: 1*24*3600*1000} //10天到期

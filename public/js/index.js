@@ -56,6 +56,8 @@ let personList = (song, artist) => {
         playSong(song, artist)
     })
 
+    
+
     myHeartBtn.appendChild(myHeartImg);
     myItemBox.appendChild(mySongP);
     myItemBox.appendChild(myArtistP);
@@ -250,7 +252,6 @@ make100.addEventListener("click", () => {
 
             ytbImg.src = "/img/ytb.png";
             heartBtn.classList.add("heartBtn");
-
             // 判斷是否已加入清單
             (async () => {
                 try{

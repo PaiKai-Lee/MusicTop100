@@ -61,6 +61,17 @@ member.post("/api", (req, res) => {
     let password = data["password"]
     let salt = Date.now()
 
+    if (user===''){
+        return res.status(400).send({ "status": "error", "message": "請輸入使用者名稱"})
+    }
+    const emailRule=/^([\w\.\-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/
+    if(!emailRule.test(email)){
+        return res.status(400).send({ "status": "error", "message": "請輸入正確的Email"})
+    }
+    const passwordRule=/[\w\.\-\!\@\*]{6,30}/
+    if (!passwordRule.test(password)){
+        return res.status(400).send({ "status": "error", "message": "密碼長度需大於6位數"})
+    }
     MongoClient.connect(dburl, { useNewUrlParser: true, useUnifiedTopology: true }, async (err, db) => {
         if (err) { throw err };
 
