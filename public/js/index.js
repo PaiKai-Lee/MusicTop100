@@ -4,7 +4,7 @@ google.charts.setOnLoadCallback(drawChart);
 // 撥歌
 let playSong = (song, artist) => {
     let embedContainer=document.querySelector("#embed-container")
-    embedContainer.classList.toggle("hideiframe")
+    embedContainer.classList.remove("hideiframe")
     let sessionVideo = sessionStorage.getItem(song)
     let player = document.querySelector("#embed-container").children[0]
     let videoId
@@ -350,7 +350,7 @@ closeBtn.addEventListener("click",()=>{
     let embedContainer=document.querySelector("#embed-container")
     let player = document.querySelector("#embed-container").children[0]
     player.src = `https://www.youtube.com/embed/`
-    embedContainer.classList.toggle("hideiframe")
+    embedContainer.classList.add("hideiframe")
 })
 
 function debounce(method, delay) {
