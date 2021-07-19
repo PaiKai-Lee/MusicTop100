@@ -24,7 +24,6 @@ myList.get("/api", (req, res) => {
             if (err) { throw err };
             let data = result[0].song
             if (data != undefined) {
-                // console.log(data)
                 db.close()
                 res.status(200).send(data)
             } else {
@@ -75,26 +74,26 @@ myList.post("/api", (req, res) => {
     })
 })
 
-// myList.delete("/api",(req,res)=>{
-//     let data=req.body
-//     let email=req.session.user;
-//     let song=data["song"]
-//     let query={"email":email}
-//     MongoClient.connect(dburl,{ useNewUrlParser: true, useUnifiedTopology: true },async(err,db)=>{
-//         if (err) { throw err };
-//         try{
-//             let dbcol=db.db("100");
-//             let result = await dbcol.collection("user").findOne(query,{project:{song:1}});
-//             let songs = result["song"]
-//             let songs=songs.filter(item=>item.song!==song)
-//             console.log(songs)
-//             // dbcol.collection("user").findOneAndUpdate(query,)
-//         }catch(e){
-//             console.log(`deleteError:${e}`)
-//         }finally{
-//             db.close()
-//         }
-//     })
-// })
+myList.delete("/api",(req,res)=>{
+    let data=req.body
+    let email=req.session.user;
+    let song=data["song"]
+    let query={"email":email}
+    MongoClient.connect(dburl,{ useNewUrlParser: true, useUnifiedTopology: true },async(err,db)=>{
+        if (err) { throw err };
+        try{
+            let dbcol=db.db("top100");
+            let result = await dbcol.collection("user").findOne(query,{project:{song:1}});
+            let songs = result["song"]
+            songs=songs.filter(item=>item.song!==song)
+            await dbcol.collection("user").findOneAndUpdate(query,{$set:{"song":songs}})
+            res.status(200).send({"status":"ok"})
+        }catch(e){
+            console.log(`deleteError:${e}`)
+        }finally{
+            db.close()
+        }
+    })
+})
 
 module.exports = myList

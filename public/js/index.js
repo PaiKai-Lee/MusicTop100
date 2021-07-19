@@ -3,8 +3,10 @@ google.charts.setOnLoadCallback(drawChart);
 
 // 撥歌
 let playSong = (song, artist) => {
+    let embedContainer=document.querySelector("#embed-container")
+    embedContainer.classList.toggle("hideiframe")
     let sessionVideo = sessionStorage.getItem(song)
-    let player = document.querySelector("#cont").children[0]
+    let player = document.querySelector("#embed-container").children[0]
     let videoId
     console.log(sessionVideo !== null)
     // 檢查storage是否點擊過
@@ -54,6 +56,22 @@ let personList = (song, artist) => {
         let song = myPlayBtn.parentElement.children[0].innerText
         let artist = myPlayBtn.parentElement.children[1].innerText
         playSong(song, artist)
+    })
+
+
+    myHeartBtn.addEventListener("click",()=>{
+        let song = myHeartBtn.parentElement.children[0].innerText;
+        (async()=>{
+            let res = await fetch('/list/api',{
+                method:"DELETE",
+                headers: { 'Content-Type': 'application/json' },
+                body:JSON.stringify({"song":song})
+            })
+            let myjson=await res.json()
+            if (myjson["status"]==="ok"){
+                myItemBox.remove()
+            }
+        })();
     })
 
     
@@ -327,6 +345,14 @@ make100.addEventListener("click", () => {
     getList(year)
 })
 
+let closeBtn=document.querySelector("#ytbClose")
+closeBtn.addEventListener("click",()=>{
+    let embedContainer=document.querySelector("#embed-container")
+    let player = document.querySelector("#embed-container").children[0]
+    player.src = `https://www.youtube.com/embed/`
+    embedContainer.classList.toggle("hideiframe")
+})
+
 function debounce(method, delay) {
     clearTimeout(method._tId);
     method._tId = setTimeout(function () {
@@ -337,12 +363,14 @@ window.addEventListener("scroll", (e) => {
     debounce(function () {
         let h = document.documentElement.clientHeight
         let scroll = document.body.scrollHeight - window.scrollY
+        let embedContainer=document.querySelector("#embed-container")
         if (scroll - 120 < h) {
-            document.querySelector("#player").classList.add("move");
+            embedContainer.classList.add("move");
         }
         if (scroll - 125 > h) {
-            document.querySelector("#player").classList.remove("move");
+            embedContainer.classList.remove("move");
         }
     }, 100);
-
 })
+
+

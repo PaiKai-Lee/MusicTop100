@@ -185,23 +185,38 @@ section.playList{
     width: 45%;
     height: 800px;
 }
-.player{
+#embed-container{
     position: fixed;
     left:0;
     bottom: 0px;
+}
+.player{
     width: 200px;
     height: 200px;
-    /* border: 1px black solid; */
     transition: 0.5s;
 }
-
 .move{
     bottom: 100px;
 }
-
 .player:hover{
     width: 360px;
     height: 240px;
+}
+#ytbClose{
+    position: absolute;
+    top: -30px;
+    right: 0;
+    width: 25px;
+    height: 25px;
+    border: transparent;
+    border-radius: 50%;
+    background-color: rgba(85, 85, 85,0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.hideiframe{
+    display: none;
 }
 footer{
     background: black;
