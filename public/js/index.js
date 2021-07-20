@@ -252,95 +252,97 @@ make100.addEventListener("click", () => {
             body: JSON.stringify({ year: year })
         })
         let myjson = await res.json()
-        let titleYear = make100.parentElement.children[0].children[0]
-        let hotListContainer = make100.parentElement.parentElement.children[1]
-
+        let titleYear = make100.parentElement.children[0].children[0];
+        let hotListContainer = make100.parentElement.parentElement.children[1];
         titleYear.innerText = year
-        let songs = myjson["songs"]
-        songs.forEach((song, index) => {
-            let itemBox = document.createElement("div")
-            itemBox.classList.add("items")
-            let rankP = document.createElement("p")
-            let songP = document.createElement("p")
-            let artistP = document.createElement("p")
-            let heartBtn = document.createElement("button")
-            let heartImg = document.createElement("img")
-            let ytbImg = document.createElement("img")
-            let playBtn = document.createElement("button")
+        let songs = myjson["songs"];
 
-            ytbImg.src = "/img/ytb.png";
-            heartBtn.classList.add("heartBtn");
-            // 判斷是否已加入清單
-            (async () => {
-                try{
-                    let res = await fetch("/list/api")
-                    let myjson = await res.json()
-                    let checkList = myjson.some(item=>item["song"] === song["song"])
-                    if (checkList===true){
-                        heartImg.src = "/img/fullheart.svg"
-                    }else{
-                        heartImg.src = "/img/heart.svg"
-                    }
-                }catch(e){
+        (async () => {
+            try{
+                let res = await fetch("/list/api");
+                let jsonList = await res.json();
+                console.log(jsonList)
+                songs.forEach((song, index) => {
+                    let itemBox = document.createElement("div")
+                    itemBox.classList.add("items")
+                    let rankP = document.createElement("p")
+                    let songP = document.createElement("p")
+                    let artistP = document.createElement("p")
+                    let heartBtn = document.createElement("button")
+                    let heartImg = document.createElement("img")
+                    let ytbImg = document.createElement("img")
+                    let playBtn = document.createElement("button")
+        
+                    ytbImg.src = "/img/ytb.png";
+                    heartBtn.classList.add("heartBtn");
                     heartImg.src = "/img/heart.svg"
-                }
-            })();
-            
-            rankP.innerText = `NO.${index + 1}`
-            songP.innerText = song["song"]
-            artistP.innerText = song["artist"]
-            playBtn.appendChild(ytbImg)
-            heartBtn.appendChild(heartImg)
-
-            // 收藏list處理 
-            heartBtn.addEventListener("click", () => {
-                let makeFavor = async () => {
-                    let res = await fetch("/user/api")
-                    let myjson = await res.json()
-                    // 判斷是否登入
-                    if (myjson["status"] === "ok") {
-                        heartImg.src = "/img/fullheart.svg"
-                        let song = playBtn.parentElement.children[1].innerText
-                        let artist = playBtn.parentElement.children[2].innerText
-                        console.log(song, artist)
-
-                        let insertFavorDB = async () => {
-                            let res = await fetch("/list/api", {
-                                method: "POST",
-                                headers: { 'Content-Type': 'application/json' },
-                                body: JSON.stringify({ "song": song, "artist": artist })
-                            })
+                    // 登入時判斷是否已加入清單
+                    if (Array.isArray(jsonList)){
+                        let checkList = jsonList.some(item=>item["song"] === song["song"]);
+                        if (checkList===true){
+                            heartImg.src = "/img/fullheart.svg"
+                        }else{
+                            heartImg.src = "/img/heart.svg"
+                        }  
+                    }
+                    rankP.innerText = `NO.${index + 1}`
+                    songP.innerText = song["song"]
+                    artistP.innerText = song["artist"]
+                    playBtn.appendChild(ytbImg)
+                    heartBtn.appendChild(heartImg)
+        
+                    // 收藏list處理 
+                    heartBtn.addEventListener("click", () => {
+                        let makeFavor = async () => {
+                            let res = await fetch("/user/api")
                             let myjson = await res.json()
-                            // 無重複且存入資料庫回復"ok"
+                            // 判斷是否登入
                             if (myjson["status"] === "ok") {
-                                // 產生list item函式
-                                personList(song, artist)
+                                heartImg.src = "/img/fullheart.svg"
+                                let song = playBtn.parentElement.children[1].innerText
+                                let artist = playBtn.parentElement.children[2].innerText
+                                console.log(song, artist)
+        
+                                let insertFavorDB = async () => {
+                                    let res = await fetch("/list/api", {
+                                        method: "POST",
+                                        headers: { 'Content-Type': 'application/json' },
+                                        body: JSON.stringify({ "song": song, "artist": artist })
+                                    })
+                                    let myjson = await res.json()
+                                    // 無重複且存入資料庫回復"ok"
+                                    if (myjson["status"] === "ok") {
+                                        // 產生list item函式
+                                        personList(song, artist)
+                                    }
+                                }
+                                insertFavorDB()
+                            }
+                            else {
+                                alert("加入會員，建立個人清單")
                             }
                         }
-                        insertFavorDB()
-                    }
-                    else {
-                        alert("加入會員，建立個人清單")
-                    }
-                }
-                makeFavor()
-            })
-
-            // Hot100歌曲播放youtube
-            playBtn.addEventListener("click", () => {
-                let song = playBtn.parentElement.children[1].innerText
-                let artist = playBtn.parentElement.children[2].innerText
-                playSong(song, artist)
-            })
-
-            itemBox.appendChild(rankP)
-            itemBox.appendChild(songP)
-            itemBox.appendChild(artistP)
-            itemBox.appendChild(heartBtn)
-            itemBox.appendChild(playBtn)
-            hotListContainer.appendChild(itemBox)
-        })
-
+                        makeFavor()
+                    })
+        
+                    // Hot100歌曲播放youtube
+                    playBtn.addEventListener("click", () => {
+                        let song = playBtn.parentElement.children[1].innerText
+                        let artist = playBtn.parentElement.children[2].innerText
+                        playSong(song, artist)
+                    })
+        
+                    itemBox.appendChild(rankP)
+                    itemBox.appendChild(songP)
+                    itemBox.appendChild(artistP)
+                    itemBox.appendChild(heartBtn)
+                    itemBox.appendChild(playBtn)
+                    hotListContainer.appendChild(itemBox)
+                })
+            }catch(e){
+                console.log("錯誤: "+e)
+            }
+        })();
     }
     getList(year)
 })
