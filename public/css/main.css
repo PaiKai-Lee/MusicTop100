@@ -1,0 +1,143 @@
+main{
+    margin-left: auto;
+    margin-right: auto;
+    width: 1200px;
+}
+
+main .info{
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+.info #BarChart{
+    width:65%;
+    height:80vh;
+}
+.info #subGenres{
+    width:25%;
+    height: 70vh;
+    border: 1px black solid;
+    margin: 3rem;
+    overflow-y: scroll;
+    order: 1;
+}
+.info .slideContainer{
+    width: 100%;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    order:2;
+}
+#subGenres .subHeader{
+    display: flex;
+    font-size: 1.5rem;
+    justify-content: space-between;
+    background: black;
+    color: white;
+    padding: 5px;
+    position: sticky;
+    top:0;
+    box-shadow: 0px 2px 5px gray;
+}
+#subGenres .subDiv{
+    display: flex;
+    font-size: 1.5rem;
+    justify-content: space-between;
+    margin: 10px 0;
+    padding: 5px
+}
+#slideYear{
+    width:90%;
+}
+section.playList{
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+}
+.playList .listContainer{
+    width: 100%;
+    height: 90%;
+    border: 1px black solid;
+    overflow-y: scroll;
+}
+#hot100{
+    width: 80%;
+    height: 800px;
+}
+.listContainer .items{
+    border: 1px gray solid;
+    height: 4rem;
+    padding: 5px;
+    font-size: 1.25rem;
+    display: flex;
+    justify-content:space-between;
+    align-items: center;
+}
+
+/* Hot100 List */
+#hot100 .items p:nth-child(1){
+    width: 10%;
+}
+#hot100 .items p:nth-child(2){
+    width: 30%;
+}
+#hot100 .items p:nth-child(3){
+    width: 30%;
+}
+#hot100 .items button{
+    width: 10%;
+    background-color: transparent;
+    border: none;
+}
+#hot100 .items button img{
+    width: 100%;
+    cursor: pointer;
+}
+#hot100 .items button img:hover{
+    opacity: 0.6;
+}
+#hot100 .items button:nth-child(4){
+    width: 5%;
+}
+
+
+.top{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.top p{
+    cursor: pointer;
+}
+#myList{
+    width: 45%;
+    height: 800px;
+}
+#embed-container{
+    position: fixed;
+    left:0;
+    bottom: 0px;
+}
+
+@media screen and (max-width:1200px) {
+    .info #BarChart{
+        width: 60%;
+    }
+    .info #subGenres{
+        width: 22%;
+    }
+}
+@media screen and (max-width:800px) {
+    .info #BarChart{
+        width: 100%;
+    }
+    .info #subGenres{
+        width: 100%;
+        order:2;
+    }
+    .info .slideContainer{
+        width: 90%;
+        order:1;
+    }
+}

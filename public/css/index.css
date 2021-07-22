@@ -1,249 +1,53 @@
-*{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    text-decoration: none;
-}
-html,body{
-    height: 100%;
-}
-header{
-    font-family: 'New Rocker', cursive;
-    background-color: black;
-    color: white;
-    display: flex;
-    justify-content: space-between;
-    padding: 10px;
-}
-header h1{
-    font-weight: normal;
-    animation: flash 2s infinite alternate;
-    color: #fff;
-}
-@keyframes flash {   
-    0%, 18%, 22%, 25%, 53%, 57%, 100% {
-        text-shadow:
-        0 0 4px #fff,
-        0 0 8px rgb(255, 15, 15),
-        0 0 30px rgb(255, 15, 15),
-        0 0 40px rgb(255, 15, 15)
-    }  
-    20%, 24%, 55% {        
-        text-shadow: none;
-    }    
-  }
-nav{
-    display: flex;
-    align-items: center;
-}
-nav a{
-    color: white;
-    padding-right: 2rem;
-    letter-spacing: 0.2rem;
-}
-nav a:hover{
-    color: red;
-    -webkit-text-stroke: 0.5px white;
-}
+/* 主內容 */
 main{
     margin-left: auto;
     margin-right: auto;
     width: 1200px;
 }
 
-main .info{
-    width: 100%;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
-}
-.info #BarChart{
-    width:65%;
-    height:80vh;
-}
-.info #subGenres{
-    width:25%;
-    height: 70vh;
-    border: 1px black solid;
-    margin: 3rem;
-    overflow-y: scroll;
-    order: 1;
-}
-.info .slideContainer{
-    width: 100%;
-    height: 40px;
-    display: flex;
-    align-items: center;
-    order:2;
-}
-#subGenres .subHeader{
-    display: flex;
-    font-size: 1.5rem;
-    justify-content: space-between;
-    background: black;
-    color: white;
-    padding: 5px;
-    position: sticky;
-    top:0;
-    box-shadow: 0px 2px 5px gray;
-}
-#subGenres .subDiv{
-    display: flex;
-    font-size: 1.5rem;
-    justify-content: space-between;
-    margin: 10px 0;
-    padding: 5px
-}
-#slideYear{
-    width:90%;
-}
-section.playList{
-    width: 100%;
-    display: flex;
-    justify-content: space-around;
-}
-.playList .listContainer{
-    width: 100%;
-    height: 90%;
-    border: 1px black solid;
-    overflow-y: scroll;
-}
-#hot100{
-    width: 45%;
-    height: 800px;
-}
-.listContainer .items{
-    border: 1px gray solid;
-    height: 4rem;
-    padding: 5px;
-    font-size: 1.25rem;
-    display: flex;
-    justify-content:space-between;
-    align-items: center;
-
-}
-
-/* Hot100 List */
-#hot100 .items p:nth-child(1){
-    width: 10%;
-}
-#hot100 .items p:nth-child(2){
-    width: 30%;
-}
-#hot100 .items p:nth-child(3){
-    width: 30%;
-}
-#hot100 .items button{
-    width: 10%;
-    background-color: transparent;
-    border: none;
-}
-#hot100 .items button img{
-    width: 100%;
-    cursor: pointer;
-}
-#hot100 .items button img:hover{
-    opacity: 0.6;
-}
-#hot100 .items button:nth-child(4){
-    width: 5%;
-}
-
-/* 收藏清單 */
-#myList .items p:nth-child(1){
-    width: 30%;
-}
-#myList .items p:nth-child(2){
-    width: 30%;
-}
-#myList .items button{
-    width: 10%;
-    background-color: transparent;
-    border: none;
-}
-#myList .items button img{
-    width: 100%;
-    cursor: pointer;
-}
-#myList .items button img:hover{
-    opacity: 0.6;
-}
-#myList .items button:nth-child(3){
-    width: 5%;
-}
-
-
-.top{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-.top p{
-    cursor: pointer;
-}
-#myList{
-    width: 45%;
-    height: 800px;
-}
-#embed-container{
-    position: fixed;
-    left:0;
-    bottom: 0px;
-}
-.player{
-    width: 200px;
-    height: 200px;
-    transition: 0.5s;
-}
-.move{
-    bottom: 100px;
-}
-.player:hover{
-    width: 360px;
-    height: 240px;
-}
-#ytbClose{
-    position: absolute;
-    top: -30px;
-    right: 0;
-    width: 25px;
-    height: 25px;
-    border: transparent;
-    border-radius: 50%;
-    background-color: rgba(85, 85, 85,0.5);
+.sectionTop{
+    padding: 20px 0;
     display: flex;
     justify-content: center;
     align-items: center;
 }
-.hideiframe{
-    display: none;
+.backTo{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
-footer{
-    background: black;
-    width: 100%;
-    height: 100px;
+.backTo p:nth-child(1){
+    font-size: 4rem;
+    cursor: pointer;
 }
+.backTo p:nth-child(1):hover{
+    opacity: 0.7;
+}
+.backTo input{
+    width: 20rem;
+    font-size: 3rem;
+    text-align: center;
+    border: none;
+    outline: none;
+    border-bottom: black 2px solid;
+    
+}
+.sectionBottom{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+#chart{
+    width: 90%;
+    height:45vh;
+    
+}
+/* ------- */
+
 @media screen and (max-width:1200px) {
     main{
         width: 100%;
-    }
-    .info #BarChart{
-        width: 60%;
-    }
-    .info #subGenres{
-        width: 22%;
-    }
-}
-@media screen and (max-width:800px) {
-    .info #BarChart{
-        width: 100%;
-    }
-    .info #subGenres{
-        width: 100%;
-        order:2;
-    }
-    .info .slideContainer{
-        width: 90%;
-        order:1;
     }
 }

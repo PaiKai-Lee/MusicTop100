@@ -26,6 +26,4 @@ def getGenres():
         i+=1
     return allGenres
 
-
-    
  

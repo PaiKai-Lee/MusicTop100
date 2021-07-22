@@ -21,7 +21,7 @@ loginBtn.addEventListener("click", (e) => {
     .then(res => res.json())
     .then((myjson) => {
         if (myjson["status"]==="ok"){
-            window.location.assign("/")
+            window.history.go(-1)
         }else{
             alert(myjson["message"])
         }

@@ -1,17 +1,18 @@
 import pandas as pd
 import requests as rq
 import json,time
-from modulepy import getGenres
 import pymongo
 
 myclient = pymongo.MongoClient("mongodb://localhost:27017/")
 mydb=myclient["top100"]
-mycol=mydb["billboard"]
+mycol=mydb["newbillboard"]
 
 #載入全部genres
-allGenres=getGenres.getGenres()
+import ast
+with open('genres.txt','r') as f:
+   allGenres = ast.literal_eval(f.read())
 
-for year in range(2018,2019):
+for year in range(1990,1991):
     print(year)
     songsList=[]
     genres={'main_genres':{},'sub_genres':{}}
@@ -43,7 +44,7 @@ for year in range(2018,2019):
             time.sleep(6)
         print(singer)
         if singer == "?":
-            continue
+            singer="question"
         if " (" in singer:
             singer=singer.split(" (")[0]
         if " or " in singer:
@@ -51,7 +52,7 @@ for year in range(2018,2019):
         res=rq.get(f"https://api.spotify.com/v1/search?q={singer}]&type=artist&limit=1",headers={
         "Content-Type":"application/json",
         "Accept":"application/json",
-        "Authorization":'Bearer {token}'.format(token="BQAxV2SFs4SzAGYSVn38n8HPjhwU8vTuHTgc7F9s4rnp_Q7uUR5BT9hsFjZwKV-YG61blRphTjo7RGcTvE8")
+        "Authorization":'Bearer {token}'.format(token="BQBghaaauaqWo2aZPKVj6PHRostD8KIxAsSXsAg3jTQxY6ZrX6r1_4hP_rUctgTSAUzcgChchBsBIQr92ac")
         }) 
         artist_genres=res.json()["artists"]["items"][0]["genres"]
         artist_genres=set(artist_genres)

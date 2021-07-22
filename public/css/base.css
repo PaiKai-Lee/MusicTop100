@@ -1,0 +1,147 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    text-decoration: none;
+}
+html,body{
+    height: 100%;
+}
+/* header */
+header{
+    background-color: #2C3A47;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+}
+header h1{
+    font-weight: normal;
+    animation: flash 2s infinite alternate;
+    color: #fff;
+}
+@keyframes flash {   
+    0%, 18%, 22%, 25%, 53%, 57%, 100% {
+        text-shadow:
+        0 0 4px #fff,
+        0 0 8px rgb(255, 15, 15),
+        0 0 30px rgb(255, 15, 15),
+        0 0 40px rgb(255, 15, 15)
+    }  
+    20%, 24%, 55% {        
+        text-shadow: none;
+    }    
+  }
+nav{
+    display: flex;
+    align-items: center;
+}
+nav a{
+    color: white;
+    padding-right: 2rem;
+    letter-spacing: 0.2rem;
+}
+nav a:hover{
+    color: red;
+    -webkit-text-stroke: 0.5px white;
+}
+
+/* myPlayList */
+.myPlayList{
+    color: white;
+    background-color: #2C3A47;
+    width: 300px;
+    height: 75vh;
+    border: 1px black solid;
+    position: fixed;
+    top:11%;
+    right: -290px;
+    transition: 0.1s;
+
+}
+.myPlayList .listBtn{
+    cursor: pointer;
+    padding: 2px;
+    border: 1px solid gray;
+    color: black;
+    box-shadow: 0 0 5px gray;
+    position: absolute;
+    top:0;
+    left:-55px;
+}
+.myListHide{
+    right: 0px;
+}
+.myPlayList .items{
+    border: 1px gray solid;
+    height: 4rem;
+    padding: 5px;
+    font-size: 1rem;
+    display: flex;
+    justify-content:space-between;
+    align-items: center;
+}
+.myPlayList .items p:nth-child(1){
+    width: 30%;
+}
+.myPlayList .items p:nth-child(2){
+    width: 30%;
+}
+.myPlayList .items button{
+    width: 10%;
+    background-color: transparent;
+    border: none;
+}
+.myPlayList .items button img{
+    width: 100%;
+    cursor: pointer;
+}
+.myPlayList.items button img:hover{
+    opacity: 0.6;
+}
+.myPlayList .items button:nth-child(3){
+    width: 5%;
+}
+
+/* Youtube */
+#embed-container{
+    position: fixed;
+    left:0;
+    bottom: 0px;
+}
+.player{
+    width: 200px;
+    height: 200px;
+    transition: 0.5s;
+}
+.move{
+    bottom: 100px;
+}
+.player:hover{
+    width: 360px;
+    height: 240px;
+}
+#ytbClose{
+    position: absolute;
+    top: -30px;
+    right: 0;
+    width: 25px;
+    height: 25px;
+    border: transparent;
+    border-radius: 50%;
+    background-color: rgba(red, green, blue, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.hideiframe{
+    display: none;
+}
+
+/* footer */
+footer{
+    background: #2C3A47;
+    width: 100%;
+    height: 100px;
+}
+

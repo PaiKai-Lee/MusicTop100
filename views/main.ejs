@@ -7,11 +7,12 @@
     <meta name="robots" content="index,follow">
     <meta name="author" content="Kai Lee">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Music Top100</title>
-    <link rel="stylesheet" href="/css/c3.min.css">
+    <title>Music Top 100</title>
+    <link href="https://fonts.googleapis.com/css2?family=New+Rocker&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/css/base.css">
-    <link rel="stylesheet" href="/css/index.css">
+    <link rel="stylesheet" href="/css/main.css">
 </head>
+
 <body>
     <header>
         <h1>Music Top 100</h1>
@@ -22,19 +23,35 @@
         </nav>
     </header>
     <main>
-        <section class="sectionTop">
-            <div class="backTo">
-                <p class="backToBtn">Back To </p>
-                <input type="text" placeholder="1960~2020" maxlength="4" minlength="4">
-                <p class="quotations">每個時代都有屬於自己的經典,享受不同年代的經典歌曲</p>
+        <section class="info">
+            <div id="Chart"></div>
+            <div id="subGenres">
+                <div class="subHeader">
+                    <h4>Top sub-Genres</h4>
+                    <p>Percent</p>
+                </div>
             </div>
         </section>
-        <section class="sectionBottom">
-            <h1>1960</h1>
-            <div id="chart"></div>
+        <section class="playList">
+            <div id="hot100">
+                <div class="top">
+                    <h1><span></span> billboard Hot 100</h1>
+                </div>
+                <div class="listContainer">
+                    <!-- 動態加入item -->
+                </div>
+            </div>
+            <!-- <div id="myList">
+                <div class="top">
+                    <h1>UserName</h1>
+                    <p>Make playlist</p>
+                </div>
+                <div class="listContainer">
+                    
+                </div>
+            </div> -->
         </section>
     </main>
-    <!-- 以下base -->
     <div id="myPlayList" class="myPlayList">
         <div class="listBtn">playlist</div>
 
@@ -47,8 +64,6 @@
 
     </footer>
 </body>
-<script src="https://d3js.org/d3.v5.min.js"></script>
-<script src="/js/c3.min.js"></script>
 <script src="/js/base.js"></script>
-<script src="/js/index.js"></script>
+<script src="/js/main.js"></script>
 </html>
