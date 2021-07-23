@@ -1,45 +1,63 @@
 const year = sessionStorage.getItem("year")
 const mainGenres = JSON.parse(sessionStorage.getItem("mainGenres"))
 const subGenres = JSON.parse(sessionStorage.getItem("subGenres"))
-console.log(subGenres)
-// 撥歌
-// let playSong = (song, artist) => {
-//     let embedContainer = document.querySelector("#embed-container")
-//     embedContainer.classList.remove("hideiframe")
-//     let sessionVideo = sessionStorage.getItem(song)
-//     let player = document.querySelector("#embed-container").children[0]
-//     let videoId
-//     console.log(sessionVideo !== null)
-//     // 檢查storage是否點擊過
-//     if (sessionVideo !== null) {
-//         videoId = sessionVideo
-//         // videoId = "UPASPeYYtHs"
-//         player.src = `https://www.youtube.com/embed/${videoId}?autoplay=1`
-//     } else {
-//         let playVideo = async function () {
-//             try {
-//                 let res = await fetch("/ytb", {
-//                     method: "POST",
-//                     headers: { 'Content-Type': 'application/json' },
-//                     body: JSON.stringify({ "song": song, "artist": artist })
-//                 })
-//                 let myjson = await res.json()
-//                 videoId = myjson["videoId"]
-//                 // videoId = "UPASPeYYtHs"
-//                 sessionStorage.setItem(song, videoId)
-//                 player.src = `https://www.youtube.com/embed/${videoId}?autoplay=1`
-//             }
-//             catch (e) {
-//                 console.error("play button fetch error")
-//             }
-//         }
-//         playVideo()
-//     }
-// }
+if (mainGenres===null){
+    location.href="/"
+}
+
+
+const indexColors = ['#1abc9c', '#3498db', '#f1c40f', '#636e72', '#27ae60', '#fd79a8', '#e17055', '#c5b0d5', '#8c564b','#2d3436','#F8EFBA','#4bcffa','#f53b57','#808e9b','#27ae60']
+
+let genresList=[]
+for ( genreKey in  mainGenres){
+    let data = {genres:genreKey,value: mainGenres[genreKey]}
+    genresList.push(data)
+}
+let chart = c3.generate({
+    data: {
+        json:genresList,
+        keys: {
+            x: "genres",
+            value: ["value"]
+        },
+        type: 'bar',
+        color: function (color, d) {
+            return indexColors[d.x];
+        },
+    },
+    legend:{
+        show:false
+    },
+    bar: {
+        space: 2
+    },
+    axis: {
+        rotated: true,
+        x: {
+            type: 'category'
+        },
+        // y:{
+        //     max:100,
+        //     tick:{
+        //         conut:10,
+        //         format: function (d) { return '%' + d; }
+        //     }
+        // }
+    },
+    grid: {
+        // y: {
+        //     max:100,
+        //     lines: [{value: 100}],
+        //     show: true
+        // }
+    },
+    transition: {
+        duration: 500
+    },
+});
 
 // subGenres處理
 let getsubGenres = (subGenres) => {
-    console.log(subGenres)
     let genresBox = document.querySelector("#subGenres")
     let oldGenres = document.querySelectorAll(".subDiv")
     // 清除舊subGenres
@@ -173,34 +191,5 @@ let getList = async function (year,container) {
     })();
 }
 getList(year,hotListContainer)
-
-// 關閉YTB畫面
-// let closeBtn = document.querySelector("#ytbClose")
-// closeBtn.addEventListener("click", () => {
-//     let embedContainer = document.querySelector("#embed-container")
-//     let player = document.querySelector("#embed-container").children[0]
-//     player.src = `https://www.youtube.com/embed/`
-//     embedContainer.classList.add("hideiframe")
-// })
-
-// function debounce(method, delay) {
-//     clearTimeout(method._tId);
-//     method._tId = setTimeout(function () {
-//         method();
-//     }, delay);
-// }
-// window.addEventListener("scroll", (e) => {
-//     debounce(function () {
-//         let h = document.documentElement.clientHeight
-//         let scroll = document.body.scrollHeight - window.scrollY
-//         let embedContainer = document.querySelector("#embed-container")
-//         if (scroll - 120 < h) {
-//             embedContainer.classList.add("move");
-//         }
-//         if (scroll - 125 > h) {
-//             embedContainer.classList.remove("move");
-//         }
-//     }, 100);
-// })
 
 

@@ -8,14 +8,14 @@
     <meta name="author" content="Kai Lee">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Music Top 100</title>
-    <link href="https://fonts.googleapis.com/css2?family=New+Rocker&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/c3.min.css">
     <link rel="stylesheet" href="/css/base.css">
     <link rel="stylesheet" href="/css/main.css">
 </head>
 
 <body>
     <header>
-        <h1>Music Top 100</h1>
+        <a href="/"><h1>Music Top 100</h1></a>
         <nav>
             <a href="#">Genres flow</a>
             <a href="/user/login">Login/Signup</a>
@@ -24,7 +24,7 @@
     </header>
     <main>
         <section class="info">
-            <div id="Chart"></div>
+            <div id="chart"></div>
             <div id="subGenres">
                 <div class="subHeader">
                     <h4>Top sub-Genres</h4>
@@ -41,20 +41,12 @@
                     <!-- 動態加入item -->
                 </div>
             </div>
-            <!-- <div id="myList">
-                <div class="top">
-                    <h1>UserName</h1>
-                    <p>Make playlist</p>
-                </div>
-                <div class="listContainer">
-                    
-                </div>
-            </div> -->
         </section>
     </main>
-    <div id="myPlayList" class="myPlayList">
+    <div id="listWrap" class="listWrap">
         <div class="listBtn">playlist</div>
-
+        <div id="myPlayList" class="myPlayList">
+        </div>
     </div>
     <div id="embed-container" class="hideiframe">
         <iframe id="player" class="player" type="text/html" frameborder="0" allow="autoplay" allowfullscreen></iframe>  
@@ -64,6 +56,8 @@
 
     </footer>
 </body>
+<script src="https://d3js.org/d3.v5.min.js"></script>
+<script src="/js/c3.min.js"></script>
 <script src="/js/base.js"></script>
 <script src="/js/main.js"></script>
 </html>

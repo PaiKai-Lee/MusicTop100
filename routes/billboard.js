@@ -5,7 +5,6 @@ const MongoClient = mongodb.MongoClient
 let dburl = "mongodb://localhost:27017/";
 
 billboard.get("/", (req, res) => {
-    console.log(req.params)
     MongoClient.connect(dburl, { useNewUrlParser: true, useUnifiedTopology: true }, function (err, db) {
         if (err) throw err;
         let data = {}

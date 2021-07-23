@@ -7,6 +7,11 @@
 html,body{
     height: 100%;
 }
+main{
+    margin-left: auto;
+    margin-right: auto;
+    width: 1200px;
+}
 /* header */
 header{
     background-color: #2C3A47;
@@ -47,6 +52,14 @@ nav a:hover{
 }
 
 /* myPlayList */
+.listWrap{
+    width: 300px;
+    height: 75vh;
+    position: fixed;
+    top:11%;
+    right: -290px;
+    transition: 0.1s;
+}
 .myPlayList{
     color: white;
     background-color: #2C3A47;
@@ -57,17 +70,18 @@ nav a:hover{
     top:11%;
     right: -290px;
     transition: 0.1s;
-
+    overflow-y: auto;
 }
-.myPlayList .listBtn{
+.listWrap .listBtn{
     cursor: pointer;
-    padding: 2px;
+    padding: 3px;
+    background-color:#ffffff;
     border: 1px solid gray;
     color: black;
     box-shadow: 0 0 5px gray;
     position: absolute;
     top:0;
-    left:-55px;
+    left: -55px;
 }
 .myListHide{
     right: 0px;
@@ -82,6 +96,13 @@ nav a:hover{
     align-items: center;
 }
 .myPlayList .items p:nth-child(1){
+    overflow:hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    white-space: normal;
     width: 30%;
 }
 .myPlayList .items p:nth-child(2){

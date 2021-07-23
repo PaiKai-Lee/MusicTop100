@@ -45,6 +45,10 @@ app.get("/main",(req,res)=>{
   res.render("main.ejs")
 })
 
+app.get("/sub",(req,res)=>{
+  res.render("sub.ejs")
+})
+
 app.get("/user/login", (req, res) => {
   res.render("login.ejs")
 })

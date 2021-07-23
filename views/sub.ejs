@@ -1,18 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="robots" content="index,follow">
     <meta name="author" content="Kai Lee">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Music Top100</title>
+    <title>Music Top 100</title>
     <link rel="stylesheet" href="/css/c3.min.css">
     <link rel="stylesheet" href="/css/base.css">
-    <link rel="stylesheet" href="/css/index.css">
+    <link rel="stylesheet" href="/css/sub.css">
 </head>
-
 <body>
     <header>
         <a href="/"><h1>Music Top 100</h1></a>
@@ -23,27 +21,16 @@
         </nav>
     </header>
     <main>
-        <section class="sectionTop">
-            <div class="backTo">
-                <p class="backToBtn">Back To </p>
-                <input type="text" placeholder="1960~2020" maxlength="4" minlength="4">
-                <p class="quotations">每個時代都有屬於自己的經典,享受不同年代的經典歌曲</p>
-            </div>
-        </section>
-        <section class="sectionBottom">
-            <h1>1960</h1>
-            <div id="chart"></div>
-        </section>
+        <h1>genres</h1>
+        <div id="chart"></div>
     </main>
-    <!-- 以下base -->
     <div id="listWrap" class="listWrap">
         <div class="listBtn">playlist</div>
         <div id="myPlayList" class="myPlayList">
         </div>
     </div>
-
     <div id="embed-container" class="hideiframe">
-        <iframe id="player" class="player" type="text/html" frameborder="0" allow="autoplay" allowfullscreen></iframe>
+        <iframe id="player" class="player" type="text/html" frameborder="0" allow="autoplay" allowfullscreen></iframe>  
         <button id="ytbClose"><img src="/img/close_white.png" alt="YTBclose"></button>
     </div>
     <footer>
@@ -53,6 +40,5 @@
 <script src="https://d3js.org/d3.v5.min.js"></script>
 <script src="/js/c3.min.js"></script>
 <script src="/js/base.js"></script>
-<script src="/js/index.js"></script>
-
+<script src="/js/sub.js"></script>
 </html>

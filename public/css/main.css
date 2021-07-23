@@ -1,8 +1,3 @@
-main{
-    margin-left: auto;
-    margin-right: auto;
-    width: 1200px;
-}
 
 main .info{
     width: 100%;
@@ -10,7 +5,7 @@ main .info{
     flex-wrap: wrap;
     justify-content: space-around;
 }
-.info #BarChart{
+.info #chart{
     width:65%;
     height:80vh;
 }
@@ -18,16 +13,9 @@ main .info{
     width:25%;
     height: 70vh;
     border: 1px black solid;
-    margin: 3rem;
+    margin: 1rem;
     overflow-y: scroll;
     order: 1;
-}
-.info .slideContainer{
-    width: 100%;
-    height: 40px;
-    display: flex;
-    align-items: center;
-    order:2;
 }
 #subGenres .subHeader{
     display: flex;
@@ -47,9 +35,8 @@ main .info{
     margin: 10px 0;
     padding: 5px
 }
-#slideYear{
-    width:90%;
-}
+
+/* Hot100 List */
 section.playList{
     width: 100%;
     display: flex;
@@ -91,7 +78,7 @@ section.playList{
     border: none;
 }
 #hot100 .items button img{
-    width: 100%;
+    width: 50%;
     cursor: pointer;
 }
 #hot100 .items button img:hover{
@@ -120,24 +107,20 @@ section.playList{
     bottom: 0px;
 }
 
-@media screen and (max-width:1200px) {
-    .info #BarChart{
-        width: 60%;
-    }
-    .info #subGenres{
-        width: 22%;
-    }
-}
-@media screen and (max-width:800px) {
-    .info #BarChart{
+/* @media screen and (max-width:1200px) {
+    main{
         width: 100%;
+    }
+} */
+@media screen and (max-width:800px) {
+    .info #chart{
+        width: 95%;
     }
     .info #subGenres{
         width: 100%;
         order:2;
     }
-    .info .slideContainer{
-        width: 90%;
-        order:1;
+    #hot100{
+        width: 95%;
     }
 }

@@ -1,10 +1,6 @@
-//操作個人清單
-const listBtn=document.querySelector("#myPlayList .listBtn")
+const listBtn=document.querySelector(".listBtn")
 const myPlayList=document.querySelector("#myPlayList")
-
-listBtn.addEventListener("click",function(){
-    myPlayList.classList.toggle("myListHide")
-})
+const listWrap=document.querySelector("#listWrap")
 
 //進網頁驗證 
 const nav = document.querySelector("nav")
@@ -17,7 +13,7 @@ let valid = async () => {
     if (myjson["status"] === "ok") {
         login.style.display = "none";
         logout.style.display = "inline-block";
-        myPlayList.classList.remove("hideiframe")
+        listWrap.classList.remove("hideiframe")
         // 顯示個人清單....
         let res = await fetch("/list/api")
         let myjson = await res.json()
@@ -30,7 +26,7 @@ let valid = async () => {
     else {
         login.style.display = "inline-block";
         logout.style.display = "none";
-        myPlayList.classList.add("hideiframe")
+        listWrap.classList.add("hideiframe")
         console.log("Not Login")
     }
 }
@@ -45,6 +41,10 @@ logout.addEventListener("click", () => {
     })();
 })
 
+listBtn.addEventListener("click",function(){
+    myPlayList.classList.toggle("myListHide")
+    listWrap.classList.toggle("myListHide")
+})
 
 // 產生個人清單
 let personList = (song, artist) => {
