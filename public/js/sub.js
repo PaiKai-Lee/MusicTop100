@@ -1,8 +1,10 @@
+let genre=sessionStorage.getItem("genre")
 let drawSubChart = (genres) => {
     fetch("/billboard")
         .then(res => res.json())
         .then(myjson => {
             let subDataList = []
+            console.log(myjson)
             for (year in myjson) {
                 let data = {}
                 data["year"] = year;
@@ -38,4 +40,7 @@ let drawSubChart = (genres) => {
             console.log(e)
         })
 }
-drawSubChart("Rock")
+drawSubChart(genre)
+
+let title=document.querySelector("section h1")
+title.textContent=genre;

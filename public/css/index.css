@@ -39,3 +39,8 @@
     
 }
 /* ------- */
+@media screen and (max-width:1200px) {
+    main{
+        width: 100%;
+    }
+}

@@ -5,9 +5,9 @@ if (mainGenres===null){
     location.href="/"
 }
 
-
 const indexColors = ['#1abc9c', '#3498db', '#f1c40f', '#636e72', '#27ae60', '#fd79a8', '#e17055', '#c5b0d5', '#8c564b','#2d3436','#F8EFBA','#4bcffa','#f53b57','#808e9b','#27ae60']
 
+// 圖表
 let genresList=[]
 for ( genreKey in  mainGenres){
     let data = {genres:genreKey,value: mainGenres[genreKey]}
@@ -192,4 +192,11 @@ let getList = async function (year,container) {
 }
 getList(year,hotListContainer)
 
-
+let typeBtns=document.querySelectorAll(".types .type")
+typeBtns.forEach(btn=>{
+    btn.addEventListener("click",function(){
+        let genre=this.innerText;
+        sessionStorage.setItem("genre",genre)
+        location.href="/sub"
+    })
+})

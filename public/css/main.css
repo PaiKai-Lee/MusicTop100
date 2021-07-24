@@ -1,3 +1,16 @@
+.types{
+    width: fit-content;
+    margin:10px auto 10px auto;
+}
+.types .type{
+    cursor: pointer;
+    border: 1px solid black;
+    padding: 3px;
+    border-radius: 10px;
+    margin:0 2px;
+}
+
+
 
 main .info{
     width: 100%;
@@ -107,11 +120,11 @@ section.playList{
     bottom: 0px;
 }
 
-/* @media screen and (max-width:1200px) {
+@media screen and (max-width:1200px) {
     main{
         width: 100%;
     }
-} */
+}
 @media screen and (max-width:800px) {
     .info #chart{
         width: 95%;

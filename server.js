@@ -45,7 +45,7 @@ app.get("/main",(req,res)=>{
   res.render("main.ejs")
 })
 
-app.get("/sub",(req,res)=>{
+app.get("/sub/",(req,res)=>{
   res.render("sub.ejs")
 })
 

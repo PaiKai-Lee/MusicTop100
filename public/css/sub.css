@@ -1,0 +1,22 @@
+.info{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.playList>.listContainer{
+    width:80%;
+    height:600px;
+    border: 1px solid grey;
+    margin: 10px auto 10px auto;
+}
+
+@media screen and (max-width:1200px) {
+    main{
+        width: 100%;
+    }
+    #div{
+        width:95%;
+    }
+}
