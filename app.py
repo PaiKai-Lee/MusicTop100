@@ -5,7 +5,7 @@ import pymongo
 
 myclient = pymongo.MongoClient("mongodb://localhost:27017/")
 mydb=myclient["top100"]
-mycol=mydb["newbillboard"]
+mycol=mydb["billboard"]
 
 #載入全部genres
 import ast

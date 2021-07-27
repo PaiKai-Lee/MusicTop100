@@ -1,4 +1,4 @@
-let genre=sessionStorage.getItem("genre")
+const genre=sessionStorage.getItem("genre")
 let drawSubChart = (genres) => {
     fetch("/billboard")
         .then(res => res.json())
@@ -42,5 +42,32 @@ let drawSubChart = (genres) => {
 }
 drawSubChart(genre)
 
+let getSubSong=(genres)=>{
+
+}
+
 let title=document.querySelector("section h1")
 title.textContent=genre;
+
+
+
+let subSongContainer=document.querySelector(".playList .listContainer")
+fetch("/billboard/genre",{
+    method:"PATCH",
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ genre: genre })
+})
+.then(res=>res.json())
+.then(myjson=>{
+    console.log(myjson)
+    let data=myjson["data"]
+    data.forEach(item => {
+        let song=item["song"]
+        let artist=item["artist"]
+        personList(song,artist,subSongContainer)
+    });
+})
+.catch(e=>{
+    console.log("somethingWrong"+e)
+})
+

@@ -10,6 +10,45 @@
     height:600px;
     border: 1px solid grey;
     margin: 10px auto 10px auto;
+    overflow: auto;
+}
+
+.listContainer .items{
+    border: 1px gray solid;
+    height: 4rem;
+    padding: 5px;
+    font-size: 1rem;
+    display: flex;
+    justify-content:space-between;
+    align-items: center;
+}
+.listContainer .items p:nth-child(1){
+    overflow:hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    white-space: normal;
+    width: 30%;
+}
+.listContainer .items p:nth-child(2){
+    width: 30%;
+}
+.listContainer .items button{
+    width: 10%;
+    background-color: transparent;
+    border: none;
+}
+.listContainer .items button img{
+    width: 100%;
+    cursor: pointer;
+}
+.listContainer .items button img:hover{
+    opacity: 0.6;
+}
+.listContainer .items button:nth-child(3){
+    width: 5%;
 }
 
 @media screen and (max-width:1200px) {

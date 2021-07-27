@@ -1,6 +1,7 @@
 const express = require("express");
 const billboard = express.Router()
 const mongodb = require('mongodb')
+const fs =require("fs")
 const MongoClient = mongodb.MongoClient
 let dburl = "mongodb://localhost:27017/";
 
@@ -41,6 +42,66 @@ billboard.post('/', (req, res) => {
             res.send(result[0]);
             db.close()
         })
+    })
+})
+
+billboard.patch("/genre", (req, res) => {
+    let data = req.body
+    let genre = data["genre"]
+    console.log(genre)
+    if (genre==="Hip-hop/Rap"){
+        genre="Hip-hop and Rap"
+    }
+    if (genre==="Folk/Acoustic"){
+        genre="Folk / Acoustic"
+    }
+    if (genre==="Dance/EDM"){
+        genre="Dance / EDM"
+    }
+    if (genre==="World/Traditional Folk"){
+        genre="World / Traditional Folk"
+    }
+    
+    let getGenres = fs.promises.readFile('genres.json', 'utf8', (err, data) => {
+        if (err) {
+            console.error(err)
+            return
+        }
+        return data
+    })
+
+    let songGenres = new Promise(function (resolve, rejects) {
+        MongoClient.connect(dburl, { useNewUrlParser: true, useUnifiedTopology: true }, (err, db) => {
+            if (err) { throw err };
+            let dbcol = db.db("top100")
+            dbcol.collection("billboard").find().project({ _id: 0, year: 1, songs: 1 }).toArray((err, result) => {
+                if (err) {
+                    rejects(err)
+                }
+                resolve(result)
+                db.close()
+            })
+        });
+    })
+
+    Promise.all([getGenres, songGenres]).then(result => {
+        let allGenres = result[0]
+        let songs = result[1]
+        allGenres = JSON.parse(allGenres)
+        let mainGenre = allGenres[genre]
+        
+        let genreSongs = []
+        songs.forEach(song => {
+            yearSong = song["songs"]
+            console.log(`xxxxxxxxxxxxxxxxxxxxxx |${song["year"]}| xxxxxxxxxxxxxxxxxxxxxxx`)
+            yearSong.forEach(eachSong => {
+                let ans = eachSong["genres"].some(item => mainGenre.includes(item))
+                if (ans === true) {
+                    genreSongs.push(eachSong)
+                }
+            })
+        })
+        res.send({data:genreSongs})
     })
 })
 

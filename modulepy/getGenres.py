@@ -1,5 +1,6 @@
 import requests as rq
 from bs4 import BeautifulSoup as bp
+import json
 
 # 抓取所有sub_genres
 def getGenres():
@@ -22,8 +23,6 @@ def getGenres():
         for sub in subFilter[i]:
             sub=sub.text
             subSet.append(sub)
-        allGenres[main]=set(subSet) 
+        allGenres[main]=subSet 
         i+=1
-    return allGenres
-
- 
+    return json.dumps(allGenres)

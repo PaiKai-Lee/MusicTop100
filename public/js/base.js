@@ -2,53 +2,10 @@ const listBtn=document.querySelector(".listBtn")
 const myPlayList=document.querySelector("#myPlayList")
 const listWrap=document.querySelector("#listWrap")
 
-//進網頁驗證 
-const nav = document.querySelector("nav")
-let valid = async () => {
-    let res = await fetch("/user/api")
-    let myjson = await res.json()
-    let login = nav.children[1]
-    let logout = nav.children[2]
-    console.log(myjson["status"])
-    if (myjson["status"] === "ok") {
-        login.style.display = "none";
-        logout.style.display = "inline-block";
-        listWrap.classList.remove("hideiframe")
-        // 顯示個人清單....
-        let res = await fetch("/list/api")
-        let myjson = await res.json()
-        myjson.forEach(item => {
-            let song = item["song"];
-            let artist = item["artist"]
-            personList(song, artist)
-        })
-    }
-    else {
-        login.style.display = "inline-block";
-        logout.style.display = "none";
-        listWrap.classList.add("hideiframe")
-        console.log("Not Login")
-    }
-}
-valid()
-
-// 登出
-let logout = nav.children[2]
-logout.addEventListener("click", () => {
-    (async () => {
-        await fetch("/user/api", { method: "DELETE" })
-        location.reload()
-    })();
-})
-
-listBtn.addEventListener("click",function(){
-    myPlayList.classList.toggle("myListHide")
-    listWrap.classList.toggle("myListHide")
-})
-
+let myListContainer = document.querySelector("#myPlayList")
 // 產生個人清單
-let personList = (song, artist) => {
-    let myListContainer = document.querySelector("#myPlayList")
+let personList = (song, artist,myListContainer) => {
+    // let myListContainer = document.querySelector("#myPlayList")
     let mySongP = document.createElement("p")
     let myArtistP = document.createElement("p")
     let myItemBox = document.createElement("div")
@@ -94,6 +51,52 @@ let personList = (song, artist) => {
     myItemBox.appendChild(myPlayBtn)
     myListContainer.appendChild(myItemBox)
 }
+
+//進網頁驗證 
+const nav = document.querySelector("nav")
+let valid = async () => {
+    let res = await fetch("/user/api")
+    let myjson = await res.json()
+    let login = nav.children[1]
+    let logout = nav.children[2]
+    console.log(myjson["status"])
+    if (myjson["status"] === "ok") {
+        login.style.display = "none";
+        logout.style.display = "inline-block";
+        listWrap.classList.remove("hideiframe")
+        // 顯示個人清單....
+        let res = await fetch("/list/api")
+        let myjson = await res.json()
+        myjson.forEach(item => {
+            let song = item["song"];
+            let artist = item["artist"]
+            personList(song, artist,myListContainer)
+        })
+    }
+    else {
+        login.style.display = "inline-block";
+        logout.style.display = "none";
+        listWrap.classList.add("hideiframe")
+        console.log("Not Login")
+    }
+}
+valid()
+
+// 登出
+let logout = nav.children[2]
+logout.addEventListener("click", () => {
+    (async () => {
+        await fetch("/user/api", { method: "DELETE" })
+        location.reload()
+    })();
+})
+
+listBtn.addEventListener("click",function(){
+    myPlayList.classList.toggle("myListHide")
+    listWrap.classList.toggle("myListHide")
+})
+
+
 
 // 撥歌
 let playSong = (song, artist) => {

@@ -3,6 +3,7 @@ const express = require('express');
 const path = require('path');
 const ejs = require('ejs')
 const fetch = require('node-fetch');
+const fs=require("fs")
 const mongodb=require('mongodb')
 const userRouter=require("./routes/user")
 const listRouter=require("./routes/myList")
@@ -20,7 +21,6 @@ const SECRET_KEY=process.env.SECRET_KEY
 let dburl= "mongodb://localhost:27017/";
 
 app.use(session({
-  // 測試後須隱藏重設
   secret: SECRET_KEY,
   resave: false,
   saveUninitialized: true,
