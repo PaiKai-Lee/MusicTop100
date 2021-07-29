@@ -32,20 +32,6 @@ fetch("/billboard",)
                 x: {
                     type: 'category'
                 },
-                // y:{
-                //     max:100,
-                //     tick:{
-                //         conut:10,
-                //         format: function (d) { return '%' + d; }
-                //     }
-                // }
-            },
-            grid: {
-                // y: {
-                //     max:100,
-                //     lines: [{value: 100}],
-                //     show: true
-                // }
             },
             transition: {
                 duration: 500
@@ -81,8 +67,9 @@ fetch("/billboard",)
     })
     .then(data=>{
         const backToBtn = document.querySelector(".backToBtn")
+        const yearInput = document.querySelector(".backTo input")
         backToBtn.addEventListener("click",()=>{
-            const year = document.querySelector(".backTo input").value
+            const year = yearInput.value
             if (year===""){
                 alert("選擇年分")
             }
@@ -95,8 +82,22 @@ fetch("/billboard",)
             sessionStorage.setItem("subGenres",subGenres);
             location.href="/main"
         })
-        
-        
+        yearInput.addEventListener("keydown",function(e){
+            if (e.which == 13) {
+                const year = this.value
+                if (year===""){
+                    alert("選擇年分")
+                }
+                let mainGenres=data[year]['mainGenres'];
+                let subGenres=data[year]['subGenres'];
+                mainGenres=JSON.stringify(mainGenres)   
+                subGenres=JSON.stringify(subGenres);
+                sessionStorage.setItem("year",year);
+                sessionStorage.setItem("mainGenres",mainGenres);
+                sessionStorage.setItem("subGenres",subGenres);
+                location.href="/main"
+            }
+        })  
     })
     .catch(e=>{
         console.log(e)

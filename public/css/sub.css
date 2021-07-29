@@ -1,3 +1,15 @@
+.types{
+    width: fit-content;
+    margin:10px auto 10px auto;
+}
+.types .type{
+    cursor: pointer;
+    border: 1px solid black;
+    padding: 3px;
+    border-radius: 10px;
+    margin:0 2px;
+}
+
 .info{
     display: flex;
     flex-direction: column;
@@ -17,7 +29,7 @@
     border: 1px gray solid;
     height: 4rem;
     padding: 5px;
-    font-size: 1rem;
+    font-size: 1.25rem;
     display: flex;
     justify-content:space-between;
     align-items: center;
@@ -33,6 +45,13 @@
     width: 30%;
 }
 .listContainer .items p:nth-child(2){
+    overflow:hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    white-space: normal;
     width: 30%;
 }
 .listContainer .items button{
@@ -41,7 +60,7 @@
     border: none;
 }
 .listContainer .items button img{
-    width: 100%;
+    width: 50%;
     cursor: pointer;
 }
 .listContainer .items button img:hover{

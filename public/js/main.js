@@ -35,21 +35,7 @@ let chart = c3.generate({
         rotated: true,
         x: {
             type: 'category'
-        },
-        // y:{
-        //     max:100,
-        //     tick:{
-        //         conut:10,
-        //         format: function (d) { return '%' + d; }
-        //     }
-        // }
-    },
-    grid: {
-        // y: {
-        //     max:100,
-        //     lines: [{value: 100}],
-        //     show: true
-        // }
+        }
     },
     transition: {
         duration: 500
@@ -159,7 +145,7 @@ let getList = async function (year,container) {
                                 // 無重複且存入資料庫回復"ok"
                                 if (myjson["status"] === "ok") {
                                     // 產生list item函式
-                                    personList(song, artist)
+                                    personList(song, artist,myListContainer)
                                 }
                             }
                             insertFavorDB()
@@ -192,6 +178,7 @@ let getList = async function (year,container) {
 }
 getList(year,hotListContainer)
 
+// 曲風點擊
 let typeBtns=document.querySelectorAll(".types .type")
 typeBtns.forEach(btn=>{
     btn.addEventListener("click",function(){

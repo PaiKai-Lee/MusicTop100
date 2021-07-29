@@ -25,6 +25,12 @@ header h1{
     animation: flash 2s infinite alternate;
     color: #fff;
 }
+header .menu{
+    background-color: transparent;
+    display: none;
+    border: transparent;
+    cursor: pointer;
+}
 @keyframes flash {   
     0%, 18%, 22%, 25%, 53%, 57%, 100% {
         text-shadow:
@@ -43,12 +49,33 @@ nav{
 }
 nav a{
     color: white;
-    padding-right: 2rem;
+    margin-right: 1.75rem;
     letter-spacing: 0.2rem;
 }
 nav a:hover{
     color: red;
     -webkit-text-stroke: 0.5px white;
+}
+nav div{
+    margin-right: 1.75rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+nav div input{
+    font-size: 1.1rem;
+    width: 5rem;
+    color: white;
+    text-align: center;
+    border: none;
+    outline: none;
+    background-color: transparent ;
+    border-bottom:1px solid grey;
+}
+nav div button{
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
 }
 
 /* myPlayList */
@@ -106,6 +133,13 @@ nav a:hover{
     width: 30%;
 }
 .myPlayList .items p:nth-child(2){
+    overflow:hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    white-space: normal;
     width: 30%;
 }
 .myPlayList .items button{
@@ -164,5 +198,35 @@ footer{
     background: #2C3A47;
     width: 100%;
     height: 100px;
+}
+
+
+@media screen and (max-width:650px) {
+    header{
+        position: fixed;
+        width: 100%;
+        top:0;
+        z-index: 3;
+    }
+    main{
+        margin-top:4rem;
+    }
+    .nav{
+        position: fixed;
+        background-color:#2C3A47 ;
+        line-height: 3rem;
+        top: -100%;
+        right: 0;
+        left: 0;
+        flex-direction: column-reverse;
+        z-index: 2;
+        transition: 0.2s;
+    }
+    .show{
+        top: 3.3rem;
+    }
+    header .menu{
+        display: block;
+    }
 }
 

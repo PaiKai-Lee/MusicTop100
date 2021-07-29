@@ -1,7 +1,10 @@
 const listBtn=document.querySelector(".listBtn")
 const myPlayList=document.querySelector("#myPlayList")
 const listWrap=document.querySelector("#listWrap")
-
+let address=new URL(location.href)
+if (address.pathname=="/"){
+    document.querySelector(".yearBar").classList.add("hideiframe")
+}
 let myListContainer = document.querySelector("#myPlayList")
 // 產生個人清單
 let personList = (song, artist,myListContainer) => {
@@ -57,8 +60,8 @@ const nav = document.querySelector("nav")
 let valid = async () => {
     let res = await fetch("/user/api")
     let myjson = await res.json()
-    let login = nav.children[1]
-    let logout = nav.children[2]
+    let login = nav.children[2]
+    let logout = nav.children[3]
     console.log(myjson["status"])
     if (myjson["status"] === "ok") {
         login.style.display = "none";
@@ -83,7 +86,7 @@ let valid = async () => {
 valid()
 
 // 登出
-let logout = nav.children[2]
+let logout = nav.children[3]
 logout.addEventListener("click", () => {
     (async () => {
         await fetch("/user/api", { method: "DELETE" })
@@ -96,7 +99,10 @@ listBtn.addEventListener("click",function(){
     listWrap.classList.toggle("myListHide")
 })
 
-
+const menu=document.querySelector("header .menu")
+menu.addEventListener("click",()=>{
+    nav.classList.toggle("show")
+})
 
 // 撥歌
 let playSong = (song, artist) => {
@@ -132,6 +138,42 @@ let playSong = (song, artist) => {
         playVideo()
     }
 }
+
+
+// nav bar 搜尋
+function getData(year){
+   fetch("/billboard")
+   .then(res=>res.json())
+   .then(data=>{
+    let mainGenres=data[year]['mainGenres'];
+    let subGenres=data[year]['subGenres'];
+    mainGenres=JSON.stringify(mainGenres)   
+    subGenres=JSON.stringify(subGenres);
+    sessionStorage.setItem("year",year);
+    sessionStorage.setItem("mainGenres",mainGenres);
+    sessionStorage.setItem("subGenres",subGenres);
+    location.href="/main"
+   })
+}
+
+const searchBtn = document.querySelector("nav div button")
+const navInput = document.querySelector("nav input")
+searchBtn.addEventListener("click",()=>{
+    const year = navInput.value
+    if (year===""){
+        alert("選擇年分")
+    }
+    getData(year)
+})
+    navInput.addEventListener("keydown",function(e){
+    if (e.which == 13) {
+        const year = this.value
+        if (year===""){
+            alert("選擇年分")
+        }
+        getData(year)
+    }
+})
 
 // 關閉YTB畫面
 let closeBtn = document.querySelector("#ytbClose")
