@@ -99,6 +99,9 @@
 }
 
 @media screen and (max-width:680px) {
+    .listContainer .items button img{
+        width: 100%;
+    }
     .types{
         position: fixed;
         top:10%;

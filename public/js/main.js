@@ -79,7 +79,7 @@ getsubGenres(subGenres)
 
 // Hot 100 list 處理
 let hotListContainer = document.querySelector("#hot100 .listContainer")
-hotListContainer.innerHTML = ""
+// hotListContainer.innerHTML = ""
 let getList = async function (year,container) {
     let res = await fetch("/billboard", {
         method: "POST",
