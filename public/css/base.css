@@ -7,10 +7,19 @@
 html,body{
     height: 100%;
 }
+body{
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+header,footer{
+    flex-shrink: 0;
+}
 main{
     margin-left: auto;
     margin-right: auto;
     width: 1200px;
+    flex-grow: 1;
 }
 /* header */
 header{
@@ -197,9 +206,37 @@ nav div button{
 footer{
     background: #2C3A47;
     width: 100%;
-    height: 100px;
+    height: 20vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
-
+.footerContainer{
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    color: white;
+}
+.footerContainer div h3{
+    border-bottom:1px solid white;
+    padding-bottom: 5px;
+}
+.footerContainer div p{
+    font-size: 15px;
+    padding: 2px;
+}
+.footerContainer ul{
+    display: flex;
+    list-style-type: none;
+}
+.footerContainer ul a{
+    display: inline-block;
+    margin: 0 10px;
+}
+.footerContainer ul img{
+    width: 30px;
+}
 
 @media screen and (max-width:650px) {
     header{

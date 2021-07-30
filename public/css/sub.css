@@ -23,6 +23,7 @@
     border: 1px solid grey;
     margin: 10px auto 10px auto;
     overflow: auto;
+    position: relative;
 }
 
 .listContainer .items{
@@ -68,6 +69,15 @@
 }
 .listContainer .items button:nth-child(3){
     width: 5%;
+}
+.loader{
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
 }
 
 @media screen and (max-width:1200px) {

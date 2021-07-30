@@ -62,7 +62,6 @@ let valid = async () => {
     let myjson = await res.json()
     let login = nav.children[2]
     let logout = nav.children[3]
-    console.log(myjson["status"])
     if (myjson["status"] === "ok") {
         login.style.display = "none";
         logout.style.display = "inline-block";

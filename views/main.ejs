@@ -14,19 +14,7 @@
 </head>
 
 <body>
-    <header>
-        <a href="/"><h1>Music Top 100</h1></a>
-        <nav class="nav">
-            <div class="yearBar">
-                <button><img src="/img/search.svg" alt=""></button>
-                <input type="text" placeholder="YYYY" maxlength="4" minlength="4">
-            </div>
-            <a href="#">Genres flow</a>
-            <a href="/user/login">Login/Signup</a>
-            <a href="#">Log out</a>
-        </nav>
-        <button class="menu"><img src="/img/menu.svg" alt=""></button>
-    </header>
+    <%- include('./header.ejs') -%>
     <main>
         <div class="types">
             <span class="type">Pop</span>
@@ -74,9 +62,7 @@
         <iframe id="player" class="player" type="text/html" frameborder="0" allow="autoplay" allowfullscreen></iframe>  
         <button id="ytbClose"><img src="/img/close_white.png" alt="YTBclose"></button>
     </div>
-    <footer>
-
-    </footer>
+    <%- include('./footer.ejs') -%>
 </body>
 <script src="https://d3js.org/d3.v5.min.js"></script>
 <script src="/js/c3.min.js"></script>

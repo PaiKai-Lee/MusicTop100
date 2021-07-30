@@ -48,7 +48,6 @@ billboard.post('/', (req, res) => {
 billboard.patch("/genre", (req, res) => {
     let data = req.body
     let genre = data["genre"]
-    console.log(genre)
     if (genre==="Hip-hop/Rap"){
         genre="Hip-hop and Rap"
     }
@@ -62,7 +61,7 @@ billboard.patch("/genre", (req, res) => {
         genre="World / Traditional Folk"
     }
     
-    let getGenres = fs.promises.readFile('genres.json', 'utf8', (err, data) => {
+    let getGenres = fs.promises.readFile('./genres.json', 'utf8', (err, data) => {
         if (err) {
             console.error(err)
             return
@@ -89,11 +88,9 @@ billboard.patch("/genre", (req, res) => {
         let songs = result[1]
         allGenres = JSON.parse(allGenres)
         let mainGenre = allGenres[genre]
-        
         let genreSongs = []
         songs.forEach(song => {
             yearSong = song["songs"]
-            console.log(`xxxxxxxxxxxxxxxxxxxxxx |${song["year"]}| xxxxxxxxxxxxxxxxxxxxxxx`)
             yearSong.forEach(eachSong => {
                 let ans = eachSong["genres"].some(item => mainGenre.includes(item))
                 if (ans === true) {

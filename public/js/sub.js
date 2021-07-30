@@ -4,7 +4,6 @@ let drawSubChart = (genres) => {
         .then(res => res.json())
         .then(myjson => {
             let subDataList = []
-            console.log(myjson)
             for (year in myjson) {
                 let data = {}
                 data["year"] = year;
@@ -51,6 +50,10 @@ title.textContent = genre;
 
 
 let subSongContainer = document.querySelector(".playList .listContainer")
+let loader =document.querySelector(".loader")
+window.addEventListener("load",()=>{
+    loader.remove()
+})
 fetch("/billboard/genre", {
     method: "PATCH",
     headers: { 'Content-Type': 'application/json' },
@@ -74,8 +77,6 @@ fetch("/billboard/genre", {
             }
             randomData.push(data[i])
         }
-        console.log(randomData)
-
         randomData.forEach(item => {
             let song = item["song"]
             let artist = item["artist"];
@@ -84,7 +85,6 @@ fetch("/billboard/genre", {
                 try {
                     let res = await fetch("/list/api");
                     let jsonList = await res.json();
-                    
                     let itemBox = document.createElement("div")
                     itemBox.classList.add("items")
                     

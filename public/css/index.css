@@ -35,8 +35,7 @@
 }
 #chart{
     width: 90%;
-    height:45vh;
-    
+    height: 48vh;
 }
 /* ------- */
 @media screen and (max-width:1200px) {

@@ -87,7 +87,6 @@ member.post("/api", (req, res) => {
                 let obj = { "user": user, "email": email, "password": password, "salt": salt, "date": new Date() };
                 let result =await dbcol.collection("user").insertOne(obj)
                 console.log("Data has been saved")
-                console.log(result["result"])
                 res.status(200).send({ "status": "ok" })
             }
         }catch(e){

@@ -9,7 +9,7 @@ myList.use((req, res, next) => {
     if (req.session.valid == true) {
         next()
     } else
-        res.status(400).send({ "status": "error" })
+        res.status(200).send({ "status": "error" })
     return
 })
 
