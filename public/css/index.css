@@ -27,6 +27,9 @@
     border-bottom: black 2px solid;
     
 }
+.quotations{
+    padding-top: 5px;
+}
 .sectionBottom{
     display: flex;
     flex-direction: column;

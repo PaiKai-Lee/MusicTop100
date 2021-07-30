@@ -1,13 +1,22 @@
 .types{
     width: fit-content;
     margin:10px auto 10px auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+.types div{
+    margin:8px 1px;
 }
 .types .type{
     cursor: pointer;
     border: 1px solid black;
     padding: 3px;
     border-radius: 10px;
-    margin:0 2px;
+    margin:0 1px;
+}
+.types .subBtn{
+    display: none;
 }
 
 .info{
@@ -86,5 +95,44 @@
     }
     #div{
         width:95%;
+    }
+}
+
+@media screen and (max-width:680px) {
+    .types{
+        position: fixed;
+        top:10%;
+        width: 180px;
+        background-color:#2C3A47 ;
+        color: white;
+        margin: 0;
+        justify-content: flex-start;
+        z-index: 1;
+        left: -180px;
+        border-radius: 0 10px 10px 0;
+        transition: 0.2s;
+    }
+    .types div{
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        margin:0;
+        
+    }
+    .types .type{
+        width: 100%;
+        margin:2px auto;
+        border:none
+    }
+    .types .subBtn{
+        display: block;
+        position: absolute;
+        top: 0;
+        left:177px;
+        background-color: transparent;
+        border: none;
+    }
+    .showSub{
+        left: 0px;
     }
 }

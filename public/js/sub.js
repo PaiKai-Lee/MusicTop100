@@ -182,3 +182,10 @@ typeBtns.forEach(btn=>{
     })
 })
 
+// subList
+const subBtn=document.querySelector(".subBtn")
+const subList=document.querySelector(".types")
+subBtn.addEventListener("click",()=>{
+    subList.classList.toggle("showSub")
+})
+

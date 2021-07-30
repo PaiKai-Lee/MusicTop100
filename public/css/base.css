@@ -3,6 +3,7 @@
     padding: 0;
     box-sizing: border-box;
     text-decoration: none;
+    font-family:'Helvetica','Arial','微軟正黑體', sans-serif;
 }
 html,body{
     height: 100%;
@@ -95,6 +96,7 @@ nav div button{
     top:11%;
     right: -290px;
     transition: 0.1s;
+    z-index: 3;
 }
 .myPlayList{
     color: white;
@@ -107,6 +109,7 @@ nav div button{
     right: -290px;
     transition: 0.1s;
     overflow-y: auto;
+    z-index: 3;
 }
 .listWrap .listBtn{
     cursor: pointer;
@@ -238,7 +241,7 @@ footer{
     width: 30px;
 }
 
-@media screen and (max-width:650px) {
+@media screen and (max-width:680px) {
     header{
         position: fixed;
         width: 100%;

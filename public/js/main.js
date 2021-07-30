@@ -1,11 +1,14 @@
 const year = sessionStorage.getItem("year")
 const mainGenres = JSON.parse(sessionStorage.getItem("mainGenres"))
 const subGenres = JSON.parse(sessionStorage.getItem("subGenres"))
+const indexColors = ['#1abc9c', '#3498db', '#f1c40f', '#636e72', '#27ae60', '#fd79a8', '#e17055', '#c5b0d5', '#8c564b','#2d3436','#F8EFBA','#4bcffa','#f53b57','#808e9b','#27ae60']
+
 if (mainGenres===null){
     location.href="/"
 }
 
-const indexColors = ['#1abc9c', '#3498db', '#f1c40f', '#636e72', '#27ae60', '#fd79a8', '#e17055', '#c5b0d5', '#8c564b','#2d3436','#F8EFBA','#4bcffa','#f53b57','#808e9b','#27ae60']
+let title = document.querySelector("main h1")
+title.textContent = year;
 
 // 圖表
 let genresList=[]
@@ -186,4 +189,11 @@ typeBtns.forEach(btn=>{
         sessionStorage.setItem("genre",genre)
         location.href="/sub"
     })
+})
+
+// subList
+const subBtn=document.querySelector(".subBtn")
+const subList=document.querySelector(".types")
+subBtn.addEventListener("click",()=>{
+    subList.classList.toggle("showSub")
 })
