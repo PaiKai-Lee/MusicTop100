@@ -79,6 +79,26 @@
 .listContainer .items button:nth-child(3){
     width: 5%;
 }
+.listContainerHeader{
+    width: 100%;
+    height: 3rem;
+    padding: 5px;
+    font-size: 1.2rem;
+    display: flex;
+    justify-content:space-between;
+    align-items: center;
+    box-shadow: 1px 0 5px grey;
+    position: sticky;
+    top: 0;
+    background-color: black;
+    color: white;
+}
+.listContainerHeader p:nth-child(1){
+    width: 10%;
+}
+.listContainerHeader p:nth-child(2){
+    width: 30%;
+}
 .loader{
     width: 100%;
     height: 100%;
