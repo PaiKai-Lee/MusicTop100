@@ -52,7 +52,9 @@ title.textContent = genre;
 let subSongContainer = document.querySelector(".playList .listContainer")
 let loader =document.querySelector(".loader")
 window.addEventListener("load",()=>{
-    loader.remove()
+    setTimeout(()=>{
+        loader.remove()
+    },500)
 })
 fetch("/billboard/genre", {
     method: "PATCH",

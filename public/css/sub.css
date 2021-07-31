@@ -104,6 +104,7 @@
     height: 100%;
     position: absolute;
     display: flex;
+    top: 0;
     justify-content: center;
     align-items: center;
     background-color: white;
