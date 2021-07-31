@@ -54,7 +54,7 @@ let loader =document.querySelector(".loader")
 window.addEventListener("load",()=>{
     setTimeout(()=>{
         loader.remove()
-    },500)
+    },1000)
 })
 fetch("/billboard/genre", {
     method: "PATCH",
