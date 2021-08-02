@@ -71,7 +71,7 @@ fetch("/billboard",)
         backToBtn.addEventListener("click",()=>{
             const year = yearInput.value
             if (year===""){
-                alert("選擇年分")
+                alert("請輸入年分")
             }
             let mainGenres=data[year]['mainGenres'];
             let subGenres=data[year]['subGenres'];

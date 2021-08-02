@@ -11,12 +11,18 @@
     justify-content: center;
     align-items: center;
 }
-.backTo p:nth-child(1){
+.backTo .backToBtn{
     font-size: 4rem;
     cursor: pointer;
 }
-.backTo p:nth-child(1):hover{
-    opacity: 0.7;
+.backTo .backToBtn:hover{
+    opacity: 0.8;
+}
+.backTo .backToBtn img{
+    vertical-align: bottom;
+}
+.backTo .backToBtn:hover img{
+    width: 50px;
 }
 .backTo input{
     width: 20rem;

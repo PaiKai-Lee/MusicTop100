@@ -119,7 +119,7 @@ let playSong = (song, artist) => {
     } else {
         let playVideo = async function () {
             try {
-                let res = await fetch("/ytb", {
+                let res = await fetch("/yt", {
                     method: "POST",
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ "song": song, "artist": artist })
