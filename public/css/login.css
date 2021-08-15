@@ -77,7 +77,9 @@
 .loginForm button[type="button"] {
     background: linear-gradient(to right, #74b9ff 20%, #e74c3c 50%, #f1c40f 70%, #2ecc71);
 }
-
+.fb-login-button{
+    margin:10px 0 ;
+}
 .hide{
     display: none;
 }

@@ -43,28 +43,4 @@ yt.post("/", async (req, res) => {
     })
 })
 
-// yt.put("/", (req, res) => {
-//     let info = req.body;
-//     let song = info["song"];
-//     let videoID = info["videoID"]
-//     Mongclint.connect(dburl, { useNewUrlParser: true, useUnifiedTopology: true }, async (err, db) => {
-//         let dbcol = db.db("top100");
-
-//     })
-// })
-
-// yt.post("/", (req, res) => {
-//     let songInfo = req.body
-//     let song = songInfo["song"]
-//     let artist = songInfo["artist"]
-//     console.log(songInfo);
-//     fetch(`https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=3&q=${song}%20${artist}&type=video&videoEmbeddable=true&key=${API_key}`)
-//         .then(res => res.json())
-//         .then(myjson => {
-//             let videoId = (myjson["items"][0]["id"]['videoId'])
-//             res.send({ "videoId": videoId })
-//         })
-//         .catch(err => console.error(err))
-// })
-
 module.exports = yt
